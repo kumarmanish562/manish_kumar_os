@@ -1,119 +1,151 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
+import random
 
 app = Flask(__name__)
 CORS(app)
 
-# --- YOUR PERSONAL DATA STORE ---
-DATA = {
+# --- PORTFOLIO DATA (MOCK) ---
+PORTFOLIO_DATA = {
+    "home": {
+        "name": "Manish Kumar",
+        "headline": "Web Developer | React Learner",
+        "intro": "Building antigravity web experiences and exploring the frontiers of AI.",
+        "buttons": [
+            {"label": "View Projects", "action": "navigate", "target": "projects"},
+            {"label": "Contact Me", "action": "navigate", "target": "contact"}
+        ]
+    },
     "about": {
-        "type": "text",
-        "content": "Hello! I am Manish Kumar.\nI am a Full Stack Developer & Cloud Enthusiast.\nI build AI-powered applications and secure cloud architectures."
+        "bio": "I am a passionate developer with a knack for creating immersive, high-performance web applications. Currently a B.Tech student exploring the intersection of web dev and AI.",
+        "skills_summary": "Proficient in React, Python, and modern web technologies. Fast learner and team player.",
+        "goal": "To build the operating systems of the web and democratize AI tools."
     },
     "skills": {
-        "type": "tags",
-        "title": "Technical Arsenal",
-        "content": [
-            "Python", "Java", "React.js", "Flask", "Django", 
-            "Oracle Cloud (OCI)", "GenAI", "Machine Learning", "Docker"
+        "languages": [
+            {"name": "Python", "level": 90},
+            {"name": "JavaScript", "level": 85},
+            {"name": "Java", "level": 70},
+            {"name": "HTML/CSS", "level": 95}
+        ],
+        "frameworks": [
+            {"name": "React", "level": 90},
+            {"name": "Node.js", "level": 75},
+            {"name": "Express", "level": 75},
+            {"name": "Flask", "level": 85},
+            {"name": "TailwindCSS", "level": 95}
+        ],
+        "tools": [
+            {"name": "Git & GitHub", "level": 90},
+            {"name": "Docker", "level": 75},
+            {"name": "AWS", "level": 60}
+        ],
+        "soft_skills": [
+            "Problem Solving", "Team Work", "Communication", "Adaptability"
         ]
     },
-    "projects": {
-        "type": "grid",
-        "content": [
-            {
-                "title": "AI Threat Alert System",
-                "tech": ["Python", "ML", "Cybersecurity"],
-                "desc": "An automated system detecting cyber threats in real-time using Generative AI.",
-                "link": "#"
-            },
-            {
-                "title": "Dev Chronicles",
-                "tech": ["Django", "PostgreSQL", "React"],
-                "desc": "A full-featured blog platform for developers to share code snippets.",
-                "link": "#"
-            },
-            {
-                "title": "Nagar Alert Hub",
-                "tech": ["Firebase", "React Native", "Maps API"],
-                "desc": "A mobile app for reporting city issues directly to administration.",
-                "link": "#"
-            },
-             {
-                "title": "Depression Detection",
-                "tech": ["Python", "NLP", "TensorFlow"],
-                "desc": "Analyzing text patterns to predict early signs of depression.",
-                "link": "#"
-            }
-        ]
-    },
-    "experience": {
-        "type": "timeline",
-        "title": "Professional Journey",
-        "content": [
-            {
-                "role": "Hackathon Participant",
-                "company": "Innerve 2026",
-                "date": "2025 - Present",
-                "desc": "Building innovative AI solutions for smart city management."
-            },
-            {
-                "role": "Full Stack Developer Intern",
-                "company": "Tech Solutions Inc.",
-                "date": "2024 - 2025",
-                "desc": "Developed microservices using Flask and optimized OCI cloud deployments."
-            }
-        ]
-    },
+    "projects": [
+        {
+            "id": 1,
+            "title": "Depression Detection System",
+            "tech_stack": ["React", "Python", "ML", "DASS-21"],
+            "description": "An AI-powered system analyzing text and speech patterns to detect early signs of depression.",
+            "screenshot": "https://via.placeholder.com/600x400",
+            "links": {"github": "https://github.com", "demo": "https://demo.com"}
+        },
+        {
+            "id": 2,
+            "title": "Portfolio OS",
+            "tech_stack": ["React", "Three.js", "GSAP", "Tailwind v4"],
+            "description": "A dual-mode portfolio website featuring a futuristic GUI and a fully functional terminal interface.",
+            "screenshot": "https://via.placeholder.com/600x400",
+            "links": {"github": "https://github.com", "demo": "#"}
+        }
+    ],
+    "experience": [
+        {
+            "role": "Frontend Intern",
+            "company": "Tech Startup",
+            "date": "Summer 2024",
+            "description": "Worked on the main dashboard components. Optimized load times by 20%.",
+            "technologies": ["React", "Redux", "Sass"]
+        }
+    ],
     "education": {
-        "type": "timeline",
-        "title": "Academic Background",
-        "content": [
-            {
-                "role": "B.Tech in Computer Science",
-                "company": "University of Technology",
-                "date": "2023 - 2027",
-                "desc": "Specializing in AI/ML and Cloud Computing."
-            }
-        ]
+        "degree": "B.Tech in Computer Science",
+        "college": "Institute of Technology",
+        "year": "2022 - 2026",
+        "major": "Computer Science & Engineering",
+        "achievements": ["Hackathon Winner 2024", "Dean's List"]
     },
-    "certifications": {
-        "type": "list",
-        "content": [
-            "Oracle Cloud Infrastructure Foundations Associate",
-            "Google Cybersecurity Professional Certificate",
-            "AWS Certified Cloud Practitioner"
-        ]
+    "certifications": [
+        {"title": "Full Stack Web Development", "issuer": "Udemy", "date": "2024"},
+        {"title": "Machine Learning Basic", "issuer": "Coursera", "date": "2023"}
+    ],
+    "resume": {
+        "pdf_link": "/resume.pdf",
+        "preview_image": "https://via.placeholder.com/600x800"
     },
     "contact": {
-        "type": "contact_card",
-        "content": {
-            "email": "manish@example.com",
-            "github": "github.com/manish",
-            "linkedin": "linkedin.com/in/manish"
-        }
+        "email": "manish@example.com",
+        "linkedin": "https://linkedin.com/in/manish",
+        "github": "https://github.com/manish",
+        "phone": "+91 98765 43210"
     }
 }
 
-@app.route('/execute', methods=['POST'])
-def execute_command():
+# --- COMMANDS LOGIC ---
+COMMANDS = {
+    "help": "Available commands: help, cat [section], ls, gui, clear, whoami, date",
+    "ls": "sections: home, about, skills, projects, experience, education, certifications, resume, contact",
+    "whoami": "guest_user@portfolio-os",
+    "gui": "Switching to GUI mode...",
+}
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    return jsonify(PORTFOLIO_DATA)
+
+@app.route('/api/command', methods=['POST'])
+def handle_command():
     data = request.json
-    cmd = data.get('command', '').lower().strip()
+    cmd_str = data.get('command', '').strip().lower()
     
-    if cmd in DATA:
-        return jsonify(DATA[cmd])
-    elif cmd == "help":
-        return jsonify({
-            "type": "help",
-            "content": list(DATA.keys()) + ["clear"]
-        })
-    elif cmd == "clear":
-        return jsonify({"type": "clear"})
+    if not cmd_str:
+        return jsonify({"output": ""})
+
+    parts = cmd_str.split()
+    base_cmd = parts[0]
+    args = parts[1:] if len(parts) > 1 else []
+
+    response_text = ""
+
+    if base_cmd == 'cat':
+        if not args:
+            response_text = "Usage: cat [section_name]"
+        else:
+            section = args[0]
+            if section in PORTFOLIO_DATA:
+                # Pretty print json or string representation of the section
+                import json
+                response_text = json.dumps(PORTFOLIO_DATA[section], indent=2)
+            else:
+                response_text = f"Error: Section '{section}' not found. Try 'ls'."
+    
+    elif base_cmd in COMMANDS:
+        response_text = COMMANDS[base_cmd]
+    
+    elif base_cmd == 'date':
+        from datetime import datetime
+        response_text = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    elif base_cmd == 'exit':
+        response_text = "Switching to GUI mode..." # Frontend should handle the switch
+
     else:
-        return jsonify({
-            "type": "error", 
-            "content": f"Command '{cmd}' not found. Type 'help'."
-        })
+        response_text = f"Command not found: {base_cmd}. Type 'help' for available commands."
+
+    return jsonify({"output": response_text, "command": cmd_str})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
