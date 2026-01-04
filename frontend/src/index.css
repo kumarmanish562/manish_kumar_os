@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+/* 1. Register the Scrollbar Plugin */
+@plugin "tailwind-scrollbar";
+
+/* 2. Define Custom Animations (The "Fade In" effect) */
+@theme {
+  --animate-fadeIn: fadeIn 0.3s ease-in-out;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* 3. Base Styles (Optional resets) */
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100;
+  }
+}
