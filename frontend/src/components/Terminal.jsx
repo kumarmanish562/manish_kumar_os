@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { usePortfolio } from '../src/context/PortfolioContext'; // Adjust path if needed (e.g., ../src/context)
+import { usePortfolio } from '../context/PortfolioContext';
 
 import TopBar from './TopBar';
 
@@ -124,7 +124,7 @@ const Terminal = () => {
                         <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                         <div className="relative w-64 h-64 bg-black rounded-lg overflow-hidden border border-green-500/30">
                             <img
-                                src="https://via.placeholder.com/400"
+                                src="/profile.jpg"
                                 alt="Agent Profile"
                                 className="w-full h-full object-cover filter grayscale sepia-[.5] hover:grayscale-0 transition-all duration-500"
                             />

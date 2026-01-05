@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePortfolio } from '../src/context/PortfolioContext';
+import { usePortfolio } from '../context/PortfolioContext';
 import { motion } from 'framer-motion';
 import { Award, Calendar } from 'lucide-react';
 

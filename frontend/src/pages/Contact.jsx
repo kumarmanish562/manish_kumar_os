@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePortfolio } from '../src/context/PortfolioContext';
+import { usePortfolio } from '../context/PortfolioContext';
 import { motion } from 'framer-motion';
 import { Mail, Linkedin, Github, Send, Phone } from 'lucide-react';
 

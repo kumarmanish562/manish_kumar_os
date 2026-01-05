@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { usePortfolio } from '../src/context/PortfolioContext'; // Adjust import
+import { usePortfolio } from '../context/PortfolioContext'; // Adjust import
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
@@ -132,7 +132,7 @@ const Home = () => {
                 >
                     <div className="w-full h-full rounded-full overflow-hidden relative">
                         <img
-                            src="https://via.placeholder.com/400"
+                            src="/profile.jpg"
                             alt="Profile"
                             className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
                         />
