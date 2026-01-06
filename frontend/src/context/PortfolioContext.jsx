@@ -2,24 +2,44 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const PortfolioContext = createContext();
 
-export const usePortfolio = () => useContext(PortfolioContext);
-
 export const PortfolioProvider = ({ children }) => {
-  const [viewMode, setViewMode] = useState('gui'); // 'gui' or 'terminal'
-  const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
+  // 1. Theme State (Initialize from localStorage or default to 'dark')
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('portfolio-theme') || 'dark';
+    }
+    return 'dark';
+  });
+
+  // 2. View Mode State (GUI vs Terminal)
+  const [viewMode, setViewMode] = useState('gui');
+
+  // 3. Data State
   const [portfolioData, setPortfolioData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load theme from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    }
-  }, []);
+  // 4. Toggle Theme Function
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const newTheme = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('portfolio-theme', newTheme);
+      return newTheme;
+    });
+  };
 
-  // Fetch data from Flask backend
+  // 5. Toggle View Mode Function
+  const toggleViewMode = () => {
+    setViewMode((prev) => (prev === 'gui' ? 'terminal' : 'gui'));
+  };
+
+  // 6. Apply Theme to Body (Tailwind dark mode handling)
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+  }, [theme]);
+
+  // 7. Fetch data from Flask backend (CRITICAL: Preserved from original)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,29 +56,11 @@ export const PortfolioProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  const toggleViewMode = (mode) => {
-    // If specific mode provided, use it. Else toggle.
-    if (mode) {
-      setViewMode(mode);
-    } else {
-      setViewMode(prev => prev === 'gui' ? 'terminal' : 'gui');
-    }
-  };
-
-  const toggleTheme = () => {
-    setTheme(prev => {
-      const newTheme = prev === 'light' ? 'dark' : 'light';
-      localStorage.setItem('theme', newTheme);
-      document.documentElement.classList.toggle('dark', newTheme === 'dark');
-      return newTheme;
-    });
-  };
-
   const value = {
-    viewMode,
-    toggleViewMode,
     theme,
     toggleTheme,
+    viewMode,
+    toggleViewMode,
     portfolioData,
     loading
   };
@@ -68,4 +70,12 @@ export const PortfolioProvider = ({ children }) => {
       {children}
     </PortfolioContext.Provider>
   );
+};
+
+export const usePortfolio = () => {
+  const context = useContext(PortfolioContext);
+  if (!context) {
+    throw new Error('usePortfolio must be used within a PortfolioProvider');
+  }
+  return context;
 };

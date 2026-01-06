@@ -50,7 +50,7 @@ PORTFOLIO_DATA = {
             "title": "Depression Detection System",
             "tech_stack": ["React", "Python", "ML", "DASS-21"],
             "description": "An AI-powered system analyzing text and speech patterns to detect early signs of depression.",
-            "screenshot": "https://via.placeholder.com/600x400",
+            "screenshot": "https://placehold.co/600x400/0d1117/00f3ff?text=Depression+Detection",
             "links": {"github": "https://github.com", "demo": "https://demo.com"}
         },
         {
@@ -58,7 +58,7 @@ PORTFOLIO_DATA = {
             "title": "Portfolio OS",
             "tech_stack": ["React", "Three.js", "GSAP", "Tailwind v4"],
             "description": "A dual-mode portfolio website featuring a futuristic GUI and a fully functional terminal interface.",
-            "screenshot": "https://via.placeholder.com/600x400",
+            "screenshot": "https://placehold.co/600x400/0d1117/bc13fe?text=Portfolio+OS",
             "links": {"github": "https://github.com", "demo": "#"}
         }
     ],
@@ -84,7 +84,7 @@ PORTFOLIO_DATA = {
     ],
     "resume": {
         "pdf_link": "/resume.pdf",
-        "preview_image": "https://via.placeholder.com/600x800"
+        "preview_image": "https://placehold.co/600x800/ffff/000000?text=Resume+Preview"
     },
     "contact": {
         "email": "manish@example.com",

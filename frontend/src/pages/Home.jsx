@@ -1,147 +1,138 @@
-import React, { useEffect, useRef } from 'react';
-import { usePortfolio } from '../context/PortfolioContext'; // Adjust import
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Github, Linkedin, ArrowRight, MousePointer2, Code2, Cpu, Globe } from 'lucide-react';
 
 const Home = () => {
-    const { portfolioData, loading } = usePortfolio();
-    const profileRef = useRef(null);
-    const contentRef = useRef(null);
-    const floatingShapesRef = useRef([]);
-
-    useEffect(() => {
-        if (loading || !profileRef.current) return;
-
-        // 1. Antigravity Float Animation for Profile
-        gsap.to(profileRef.current, {
-            y: -20,
-            rotation: 2,
-            duration: 4,
-            ease: "sine.inOut",
-            yoyo: true,
-            repeat: -1
-        });
-
-        // 2. Gentle parallax for background shapes
-        const handleMouseMove = (e) => {
-            const { clientX, clientY } = e;
-            const x = (clientX / window.innerWidth - 0.5) * 20;
-            const y = (clientY / window.innerHeight - 0.5) * 20;
-
-            gsap.to(profileRef.current, {
-                x: x,
-                y: y - 20, // maintain float offset
-                duration: 1,
-                ease: "power2.out"
-            });
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [loading]);
-
-    if (loading) return <div className="text-center mt-20">Loading Portfolio OS...</div>;
-
-    // Safely access data
-    const { home } = portfolioData || {};
-    const { name, headline, intro, buttons } = home || {
-        name: "Loading...", headline: "Please wait", intro: "", buttons: []
-    };
+    const containerRef = useRef(null);
+    const navigate = useNavigate();
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex flex-col md:flex-row items-center justify-center min-h-[80vh] gap-12"
-        >
-            {/* Left Content */}
-            <div className="flex-1 space-y-6 max-w-xl z-10 order-2 md:order-1">
-                <div className="overflow-hidden">
-                    <motion.h2
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="text-neon-blue font-mono text-sm tracking-widest mb-2"
-                    >
-                        HACKING THE REALITY
-                    </motion.h2>
-                    <motion.h1
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                        className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
-                    >
-                        {name}
-                    </motion.h1>
-                </div>
+        <div ref={containerRef} className="h-full flex items-center justify-center min-h-[80vh] w-full">
 
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-xl text-gray-400 font-light border-l-2 border-neon-purple pl-4"
-                >
-                    {headline}
-                </motion.p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full max-w-7xl items-center px-4">
 
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-gray-500 leading-relaxed"
-                >
-                    {intro}
-                </motion.p>
-
+                {/* LEFT COLUMN: Text Content (Span 7 cols) */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="flex gap-4 pt-4"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="lg:col-span-7 z-20 pointer-events-none"
                 >
-                    {buttons.map((btn, idx) => (
+                    {/* New "Tagline" Badge */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 text-xs font-mono mb-6 backdrop-blur-md">
+                        <Globe size={12} />
+                        <span>BASED IN INDIA</span>
+                    </div>
+
+                    {/* Massive Name Headline */}
+                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-6 leading-[0.9]">
+                        Manish <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
+                            Kumar.
+                        </span>
+                    </h1>
+
+                    {/* Detailed Bio / Intro */}
+                    <div className="space-y-4 max-w-xl mb-8">
+                        <h2 className="text-2xl md:text-3xl font-light text-gray-200">
+                            Full Stack Developer <span className="text-gray-600">|</span> AI Enthusiast
+                        </h2>
+
+                        <p className="text-base md:text-lg text-gray-400 leading-relaxed">
+                            I craft high-performance digital ecosystems using <span className="text-cyan-400 font-bold">React</span>, <span className="text-yellow-400 font-bold">Python</span>, and <span className="text-green-400 font-bold">Flask</span>.
+                            Currently bridging the gap between futuristic UI design and intelligent backend systems.
+                        </p>
+
+                        {/* Tech Stack Mini-List */}
+                        <div className="flex gap-4 text-xs font-mono text-gray-500 pt-2">
+                            <span className="flex items-center gap-1"><Code2 size={12} /> React / Vite</span>
+                            <span className="flex items-center gap-1"><Cpu size={12} /> Machine Learning</span>
+                            <span className="flex items-center gap-1"><Globe size={12} /> REST APIs</span>
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-4 pointer-events-auto">
                         <button
-                            key={idx}
-                            className={`glass-btn flex items-center gap-2 group ${idx === 0 ? 'border-neon-blue/50 text-neon-blue' : 'text-white'}`}
+                            onClick={() => navigate('/projects')}
+                            className="group relative px-8 py-4 bg-white text-black font-bold text-sm uppercase tracking-wider rounded-none overflow-hidden transition-all hover:bg-cyan-50"
                         >
-                            {btn.label}
-                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                            <div className="absolute inset-0 border-l-4 border-cyan-500 transition-all duration-300 group-hover:border-l-8" />
+                            <span className="relative flex items-center gap-2">
+                                View Projects <ArrowRight size={16} />
+                            </span>
                         </button>
-                    ))}
+
+                        <button
+                            onClick={() => navigate('/contact')}
+                            className="px-8 py-4 bg-transparent border border-white/20 text-white font-mono text-sm uppercase tracking-wider hover:bg-white/5 transition-all"
+                        >
+                            Contact Me
+                        </button>
+                    </div>
                 </motion.div>
 
-                <div className="flex gap-6 pt-8 text-gray-400">
-                    <Github className="hover:text-white cursor-pointer transition-colors" />
-                    <Linkedin className="hover:text-blue-400 cursor-pointer transition-colors" />
-                    <Mail className="hover:text-red-400 cursor-pointer transition-colors" />
-                </div>
-            </div>
 
-            {/* Right: Antigravity Profile */}
-            <div className="flex-1 flex justify-center items-center relative order-1 md:order-2">
-                {/* Floating Glow Behind */}
-                <div className="absolute w-[300px] h-[300px] bg-neon-purple/20 rounded-full blur-[100px] animate-pulse"></div>
-                <div className="absolute w-[200px] h-[200px] bg-neon-blue/20 rounded-full blur-[80px] translate-x-20 translate-y-20"></div>
+                {/* RIGHT COLUMN: Floating Card (Span 5 cols) */}
+                <div className="lg:col-span-5 relative h-[600px] flex items-center justify-center perspective-1000">
+                    <motion.div
+                        drag
+                        dragConstraints={containerRef}
+                        dragElastic={0.1}
+                        whileHover={{ scale: 1.02, rotateY: 5, cursor: "grab" }}
+                        whileDrag={{ scale: 1.1, cursor: "grabbing" }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{
+                            opacity: 1,
+                            scale: 1,
+                            y: [-15, 15, -15],
+                            rotate: [2, -2, 2]
+                        }}
+                        transition={{
+                            opacity: { duration: 0.5 },
+                            y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                            rotate: { duration: 7, repeat: Infinity, ease: "easeInOut" }
+                        }}
+                        className="relative w-80 h-[450px] rounded-3xl bg-[#0f121a]/80 backdrop-blur-2xl border border-white/10 shadow-2xl overflow-hidden group z-30"
+                    >
+                        {/* Holographic Shine */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                {/* Profile Container */}
-                <div
-                    ref={profileRef}
-                    className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-2 border-white/10 p-2 glass-panel"
-                >
-                    <div className="w-full h-full rounded-full overflow-hidden relative">
-                        <img
-                            src="/profile.jpg"
-                            alt="Profile"
-                            className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
-                        />
-                        {/* Scanline overlay on image */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    </div>
+                        {/* Profile Image Area */}
+                        <div className="h-full w-full relative">
+                            <img
+                                src="/profile.jpg"
+                                alt="Manish Kumar"
+                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                            />
+                            {/* Dark Gradient Overlay for text readability */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                        </div>
+
+                        {/* Floating Info Card on bottom */}
+                        <div className="absolute bottom-6 left-4 right-4 p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h3 className="text-white font-bold text-lg">Manish Kumar</h3>
+                                    <p className="text-cyan-400 text-xs font-mono">@manish_dev</p>
+                                </div>
+                                <div className="flex gap-3">
+                                    <Github size={20} className="text-gray-400 hover:text-white transition-colors cursor-pointer" />
+                                    <Linkedin size={20} className="text-gray-400 hover:text-white transition-colors cursor-pointer" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Drag Indicator */}
+                        <div className="absolute top-4 right-4 p-2 bg-black/40 backdrop-blur-md rounded-full border border-white/10 text-white/50 group-hover:text-white transition-colors">
+                            <MousePointer2 size={14} />
+                        </div>
+                    </motion.div>
                 </div>
+
             </div>
-        </motion.div>
+        </div>
     );
 };
 
