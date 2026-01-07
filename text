@@ -1,1 +1,3 @@
 python.exe server.py
+ .\venv\Scripts\Activate  
+ 

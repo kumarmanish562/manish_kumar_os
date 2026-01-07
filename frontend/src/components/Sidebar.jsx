@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, User, Code2, Briefcase, GraduationCap, Mail, Settings, Award, FileText, Folder } from 'lucide-react';
+import { Home, User, Code2, Briefcase, GraduationCap, Mail, FileText, Layers, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Sidebar = () => {
@@ -8,79 +8,56 @@ const Sidebar = () => {
     { icon: Home, path: '/', label: 'Home' },
     { icon: User, path: '/about', label: 'About' },
     { icon: Code2, path: '/skills', label: 'Skills' },
-    { icon: Folder, path: '/projects', label: 'Projects' },
+    { icon: Layers, path: '/projects', label: 'Projects' },
     { icon: Briefcase, path: '/experience', label: 'Experience' },
     { icon: GraduationCap, path: '/education', label: 'Education' },
-    { icon: Award, path: '/certifications', label: 'Certifications' },
+    { icon: Award, path: '/certifications', label: 'Certs' },
     { icon: FileText, path: '/resume', label: 'Resume' },
     { icon: Mail, path: '/contact', label: 'Contact' },
   ];
 
   return (
-    <div className="fixed left-8 top-0 bottom-0 z-40 hidden md:flex flex-col justify-center pointer-events-none">
+    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-4">
 
-      {/* 1. The Vertical Circuit Line (Background Trace) */}
-      <div className="absolute left-[19px] top-20 bottom-20 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent"></div>
-
-      <nav className="flex flex-col gap-5 pointer-events-auto">
-        {navItems.map((item, index) => (
+      {/* Glass Container */}
+      <motion.div
+        initial={{ x: -50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="flex flex-col gap-2 p-2 rounded-2xl bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-2xl"
+      >
+        {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              group relative flex items-center justify-center w-10 h-10 transition-all duration-500
-              ${isActive ? 'scale-110' : 'opacity-50 hover:opacity-100 hover:scale-110'}
+              group relative flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300
+              ${isActive ? 'bg-cyan-500/20 text-cyan-400' : 'text-gray-400 hover:bg-white/5 hover:text-white'}
             `}
           >
             {({ isActive }) => (
               <>
-                {/* A. The "Antigravity" Float Animation */}
-                <motion.div
-                  animate={{ y: isActive ? 0 : [0, -3, 0] }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: index * 0.2 // Stagger the floating effect
-                  }}
-                  className="relative z-10 flex items-center justify-center"
-                >
-                  {/* B. Active Glow Orb (Behind Icon) */}
-                  {isActive && (
-                    <div className="absolute inset-0 bg-cyan-400/20 blur-md rounded-full"></div>
-                  )}
-
-                  {/* C. The Icon Itself */}
-                  <item.icon
-                    size={20}
-                    className={`transition-colors duration-300 ${isActive ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]' : 'text-gray-300'}`}
-                    strokeWidth={isActive ? 2.5 : 1.5}
-                  />
-                </motion.div>
-
-                {/* D. Active Circuit Connection (The "Dot" on the line) */}
+                {/* Active Indicator Dot */}
                 {isActive && (
                   <motion.div
-                    layoutId="circuit-active"
-                    className="absolute -left-[14px] w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_#22d3ee]"
-                  >
-                    {/* Connecting beam to icon */}
-                    <div className="absolute top-1/2 left-full w-3 h-[1px] bg-cyan-400/50"></div>
-                  </motion.div>
+                    layoutId="active-dot"
+                    className="absolute -left-1 w-1 h-4 bg-cyan-400 rounded-r-full shadow-[0_0_10px_#22d3ee]"
+                  />
                 )}
 
-                {/* E. Minimal Text Label (Only shows on hover) */}
-                <div className="absolute left-12 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
-                  <span className="text-[10px] font-mono tracking-[0.2em] text-cyan-200 uppercase bg-black/60 px-2 py-1 rounded border border-white/5 backdrop-blur-sm">
-                    {item.label}
-                  </span>
+                <item.icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+
+                {/* Tooltip */}
+                <div className="absolute left-14 px-3 py-1.5 bg-[#1a1f2e] border border-white/10 text-xs text-white rounded-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 pointer-events-none whitespace-nowrap z-50 shadow-xl">
+                  {item.label}
+                  {/* Triangle */}
+                  <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 bg-[#1a1f2e] border-l border-b border-white/10 rotate-45"></div>
                 </div>
               </>
             )}
           </NavLink>
         ))}
-      </nav>
-
+      </motion.div>
     </div>
   );
 };

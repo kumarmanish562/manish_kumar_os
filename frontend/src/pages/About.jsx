@@ -1,36 +1,38 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { Code2, Cpu, Globe, Terminal, Database, Server, Zap } from 'lucide-react';
+import { Code2, Cpu, Globe, Terminal, Database, Server, Zap, ShieldCheck } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 const About = () => {
     const cardRef = useRef(null);
+    const { portfolioData } = usePortfolio();
 
     // --- 3D Tilt & Float Animation ---
     useEffect(() => {
         if (!cardRef.current) return;
 
-        // 1. Idle Floating Animation (Zero-G)
+        // 1. Idle Floating Animation
         gsap.to(cardRef.current, {
-            y: -20,
-            rotationX: 5,
-            rotationY: 5,
-            duration: 6,
+            y: -15,
+            rotationX: 3,
+            rotationY: 3,
+            duration: 5,
             ease: "sine.inOut",
             yoyo: true,
             repeat: -1
         });
 
-        // 2. Mouse Tilt Interaction
+        // 2. Mouse Interaction
         const handleMouseMove = (e) => {
             const { clientX, clientY } = e;
-            const x = (clientX / window.innerWidth - 0.5) * 20; // Tilt intensity
-            const y = (clientY / window.innerHeight - 0.5) * 20;
+            const x = (clientX / window.innerWidth - 0.5) * 15;
+            const y = (clientY / window.innerHeight - 0.5) * 15;
 
             gsap.to(cardRef.current, {
                 rotateY: x,
                 rotateX: -y,
-                duration: 1,
+                duration: 0.8,
                 ease: "power2.out"
             });
         };
@@ -39,7 +41,22 @@ const About = () => {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    // --- Data ---
+    // 1. Loading State
+    if (!portfolioData) {
+        return (
+            <div className="h-screen flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 border-4 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin"></div>
+                    <span className="text-cyan-400 font-mono text-sm tracking-[0.2em] animate-pulse">
+                        ACCESSING_DATABASE...
+                    </span>
+                </div>
+            </div>
+        );
+    }
+    const { about, home, projects } = portfolioData;
+
+    // --- Static Data (Preserved) ---
     const skills = [
         { name: 'React / Vite', icon: Code2, color: 'text-cyan-400' },
         { name: 'Python / Flask', icon: Server, color: 'text-yellow-400' },
@@ -48,172 +65,151 @@ const About = () => {
     ];
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex flex-col lg:flex-row items-center justify-center min-h-[80vh] gap-12 px-4 w-full"
-        >
-            {/* LEFT COLUMN: Narrative & Info */}
-            <div className="flex-1 space-y-8 max-w-2xl z-10">
+        <div className="min-h-[85vh] flex items-center justify-center w-full px-4 lg:px-8 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full max-w-7xl">
 
-                {/* Header Section */}
-                <div>
-                    <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: "120px" }}
-                        transition={{ duration: 1 }}
-                        className="h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mb-6"
-                    />
-                    <motion.h1
-                        initial={{ x: -50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight leading-none"
-                    >
-                        SYSTEM <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">IDENTITY</span>
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                        className="text-cyan-500/80 font-mono text-sm tracking-widest"
-                    >
-                        // ACCESSING RESTRICTED BIOS_DATA...
-                    </motion.p>
-                </div>
+                {/* LEFT COLUMN: Narrative & Info (Span 7) */}
+                <div className="lg:col-span-7 space-y-8 z-10">
 
-                {/* Main Bio Card */}
-                <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="p-8 rounded-2xl bg-[#0f121a]/60 backdrop-blur-md border border-white/10 relative overflow-hidden group"
-                >
-                    {/* Decorative Corner */}
-                    <div className="absolute top-0 right-0 p-3">
-                        <Terminal size={24} className="text-white/20" />
+                    {/* Header */}
+                    <div className="space-y-4">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: 100 }}
+                            transition={{ duration: 1, ease: "circOut" }}
+                            className="h-1 bg-gradient-to-r from-cyan-500 to-transparent"
+                        />
+                        <motion.h1
+                            initial={{ x: -30, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.6 }}
+                            className="text-5xl md:text-7xl font-black text-white tracking-tighter"
+                        >
+                            SYSTEM <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">IDENTITY</span>
+                        </motion.h1>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-cyan-500 font-mono text-sm tracking-[0.2em]"
+                        >
+                            // DECRYPTING_USER_DATA...
+                        </motion.p>
                     </div>
 
-                    <h3 className="text-xl text-white font-semibold mb-4 flex items-center gap-2">
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        Operator Profile
-                    </h3>
-
-                    <p className="text-gray-300 leading-relaxed text-lg font-light">
-                        I am <strong className="text-white font-medium">Manish Kumar</strong>, a passionate Full Stack Developer and B.Tech student exploring the intersection of modern web architectures and Artificial Intelligence.
-                        My mission is to build digital ecosystems that feel alive—combining robust Python backends with fluid, antigravity React frontends.
-                    </p>
-                </motion.div>
-
-                {/* Two Column Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                    {/* Mission Protocol */}
+                    {/* Main Bio Panel */}
                     <motion.div
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="p-6 rounded-2xl bg-[#0f121a]/60 backdrop-blur-md border border-white/10 hover:border-cyan-500/30 transition-colors"
+                        className="glass-panel p-8 rounded-2xl border-l-4 border-l-cyan-500 relative group"
                     >
-                        <h3 className="text-md text-cyan-400 font-mono mb-3 flex items-center gap-2 uppercase tracking-wider">
-                            <Globe size={16} /> Mission Protocol
+                        <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-50 transition-opacity">
+                            <Terminal size={32} className="text-cyan-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                            <span className="relative flex h-3 w-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                            </span>
+                            Operator Profile
                         </h3>
-                        <p className="text-gray-400 text-sm leading-relaxed">
-                            To democratize AI tools and build the "Operating Systems" of the web. Currently architecting intelligent threat detection systems and portfolio platforms.
+                        <p className="text-gray-300 leading-relaxed text-lg font-light">
+                            {about.bio}
                         </p>
                     </motion.div>
 
-                    {/* Core Stack List */}
-                    <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.6 }}
-                        className="p-6 rounded-2xl bg-[#0f121a]/60 backdrop-blur-md border border-white/10 hover:border-purple-500/30 transition-colors"
-                    >
-                        <h3 className="text-md text-purple-400 font-mono mb-3 flex items-center gap-2 uppercase tracking-wider">
-                            <Database size={16} /> Tech Stack
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                            {skills.map((skill) => (
-                                <span key={skill.name} className="px-2 py-1 rounded bg-white/5 border border-white/10 text-xs text-gray-300">
-                                    {skill.name}
-                                </span>
-                            ))}
-                        </div>
-                    </motion.div>
+                    {/* Secondary Info Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Mission Protocol */}
+                        <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.6 }}
+                            className="p-6 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-colors"
+                        >
+                            <div className="flex items-center gap-3 mb-3 text-cyan-400">
+                                <Globe size={20} />
+                                <h4 className="font-mono text-sm uppercase tracking-wider">Mission Protocol</h4>
+                            </div>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {about.goal}
+                            </p>
+                        </motion.div>
+
+                        {/* Tech Stack */}
+                        <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.7 }}
+                            className="p-6 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-colors"
+                        >
+                            <div className="flex items-center gap-3 mb-3 text-purple-400">
+                                <Database size={20} />
+                                <h4 className="font-mono text-sm uppercase tracking-wider">Skills Summary</h4>
+                            </div>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {about.skills_summary}
+                            </p>
+                        </motion.div>
+                    </div>
                 </div>
-            </div>
 
+                {/* RIGHT COLUMN: Holographic Card (Span 5) */}
+                <div className="lg:col-span-5 flex items-center justify-center perspective-[1500px]">
+                    <div ref={cardRef} className="relative w-80 lg:w-96 cursor-grab active:cursor-grabbing group">
 
-            {/* RIGHT COLUMN: Floating 3D Identity Card */}
-            <div className="flex-1 flex justify-center items-center perspective-1000 relative py-10 lg:py-0">
+                        {/* Glowing Background Blob */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 blur-[60px] rounded-full -z-10 pointer-events-none"></div>
 
-                {/* Background Glow */}
-                <div className="absolute w-[300px] h-[300px] bg-cyan-500/20 rounded-full blur-[80px] -z-10 animate-pulse"></div>
+                        {/* Glass Card Container */}
+                        <div className="relative bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl overflow-hidden pb-8">
 
-                <div ref={cardRef} className="w-full max-w-sm cursor-grab active:cursor-grabbing">
+                            {/* Animated Grid Background */}
+                            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
-                    {/* Glass Container */}
-                    <div className="p-1 rounded-3xl bg-gradient-to-br from-white/10 to-transparent backdrop-blur-xl border border-white/10 shadow-2xl">
+                            {/* Scanning Line Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent h-[100%] w-full animate-float pointer-events-none"></div>
 
-                        {/* Inner Card Content */}
-                        <div className="bg-[#050505]/90 rounded-[22px] p-8 relative overflow-hidden h-[480px] flex flex-col items-center border border-white/5">
-
-                            {/* Grid Pattern Overlay */}
-                            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px]"></div>
-
-                            {/* Avatar / Icon Circle */}
-                            <div className="relative z-10 mt-6 mb-6">
-                                <div className="w-32 h-32 rounded-full p-[2px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 animate-spin-slow">
-                                    <div className="w-full h-full rounded-full bg-black overflow-hidden relative border-4 border-black">
+                            {/* Avatar Section */}
+                            <div className="relative flex justify-center mb-6 mt-4">
+                                <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 shadow-[0_0_20px_rgba(0,243,255,0.3)]">
+                                    <div className="w-full h-full rounded-full overflow-hidden bg-black border-2 border-black">
                                         <img
-                                            src="https://placehold.co/200x200/1e293b/00f3ff?text=MK"
-                                            alt="Manish"
-                                            className="w-full h-full object-cover"
+                                            src={home.profile_image}
+                                            alt="Profile"
+                                            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                                            onError={(e) => { e.target.src = 'https://placehold.co/200x200/1e293b/00f3ff?text=User'; }}
                                         />
                                     </div>
                                 </div>
-                                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 bg-cyan-500 text-black text-[10px] font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_#22d3ee]">
+                                <div className="absolute bottom-0 bg-black/80 backdrop-blur-md border border-cyan-500/30 px-3 py-1 rounded-full text-[10px] font-bold text-cyan-400 uppercase tracking-widest shadow-lg">
                                     Online
                                 </div>
                             </div>
 
-                            {/* Name & Title */}
-                            <div className="relative z-10 text-center space-y-2 mb-8">
+                            {/* Identity Info */}
+                            <div className="text-center space-y-2 mb-8 relative z-10">
                                 <h2 className="text-3xl font-bold text-white tracking-tight">Manish Kumar</h2>
-                                <p className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 text-sm font-mono font-medium">
-                                    FULL STACK DEVELOPER
+                                <p className="text-xs font-mono text-gray-400 uppercase tracking-[0.15em] px-2">
+                                    {home.headline}
                                 </p>
                             </div>
 
-                            {/* Stats Grid */}
-                            <div className="relative z-10 w-full grid grid-cols-2 gap-3 mb-8">
-                                <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
-                                    <div className="text-2xl font-bold text-white">20+</div>
-                                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Projects</div>
-                                </div>
-                                <div className="p-3 rounded-xl bg-white/5 border border-white/10 text-center">
-                                    <div className="text-2xl font-bold text-white">LVL 4</div>
-                                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Experience</div>
-                                </div>
-                            </div>
-
-                            {/* Progress Bar */}
-                            <div className="relative z-10 w-full mt-auto">
-                                <div className="flex justify-between text-[10px] text-gray-400 mb-2 uppercase tracking-wider">
-                                    <span>System Integrity</span>
-                                    <span className="text-green-400">98%</span>
-                                </div>
-                                <div className="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-cyan-400 to-green-400 w-[98%] shadow-[0_0_10px_#22d3ee]"></div>
+                            {/* Stats Row */}
+                            <div className="flex justify-center mb-4 relative z-10">
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition-colors w-2/3">
+                                    <div className="text-3xl font-bold text-white">{projects?.length || 0}+</div>
+                                    <div className="text-[10px] text-gray-500 uppercase tracking-wider font-mono mt-1">Total Projects</div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
+
             </div>
-        </motion.div>
+        </div>
     );
 };
 

@@ -5,22 +5,31 @@ import random
 app = Flask(__name__)
 CORS(app)
 
-# --- PORTFOLIO DATA (MOCK) ---
 PORTFOLIO_DATA = {
     "home": {
-        "name": "Manish Kumar",
-        "headline": "Web Developer | React Learner",
-        "intro": "Building antigravity web experiences and exploring the frontiers of AI.",
-        "buttons": [
-            {"label": "View Projects", "action": "navigate", "target": "projects"},
-            {"label": "Contact Me", "action": "navigate", "target": "contact"}
-        ]
-    },
+    "name": "Manish Kumar",
+    "headline": "Full Stack Web Developer | React & Node.js | AI/ML Enthusiast",
+    "intro": "B.Tech 4rd-year student passionate about building scalable web applications, AI-powered systems, and real-world tech solutions using modern frameworks.",
+    "social_handle": "@manishkumar.dev",
+    "profile_image": "/profile.jpg",
+    "buttons": [
+        { "label": "View Projects", "action": "navigate", "target": "/projects" },
+        { "label": "Contact Me", "action": "navigate", "target": "/contact" }
+    ]
+}
+,
     "about": {
-        "bio": "I am a passionate developer with a knack for creating immersive, high-performance web applications. Currently a B.Tech student exploring the intersection of web dev and AI.",
-        "skills_summary": "Proficient in React, Python, and modern web technologies. Fast learner and team player.",
-        "goal": "To build the operating systems of the web and democratize AI tools."
-    },
+    "bio": "I am a B.Tech 3rd-year student and a passionate full stack web developer with a strong interest in building practical, user-focused applications. I enjoy working on real-world projects that combine clean UI, efficient backend logic, and modern technologies. Along with web development, I am actively exploring AI and machine learning to solve meaningful problems.",
+    
+    "skills_summary": "I have hands-on experience with HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, Python, and basic machine learning concepts. I have worked on projects involving AI-based systems, full stack applications, and modern UI design. I am a fast learner, comfortable working in teams, and always eager to improve my technical and problem-solving skills.",
+    
+    "goal": "My goal is to grow as a software engineer by building scalable web platforms and AI-powered applications that create real impact. I aim to continuously learn new technologies, contribute to innovative projects, and develop solutions that are accessible, efficient, and user-friendly.",
+    "stats": {
+        "project_count": "20+",
+        "experience_level": "LVL 4"
+    }
+}
+,
     "skills": {
         "languages": [
             {"name": "Python", "level": 90},
@@ -79,8 +88,10 @@ PORTFOLIO_DATA = {
         "achievements": ["Hackathon Winner 2024", "Dean's List"]
     },
     "certifications": [
-        {"title": "Full Stack Web Development", "issuer": "Udemy", "date": "2024"},
-        {"title": "Machine Learning Basic", "issuer": "Coursera", "date": "2023"}
+        {"title": "API Fundamentals Student Expert", "issuer": "Postman", "date": "2024", "image": "/assets/certificates/postman.png"},
+        {"title": "Cloud Essentials Knowledge Badge Assessment", "issuer": "AWS Training and Certification", "date": "Sep 2024", "image": "/assets/certificates/aws.png"},
+        {"title": "Full Stack Development Internship", "issuer": "The Black Threat", "date": "June 2024", "image": "/assets/certificates/internship.png"},
+        {"title": "Full Stack Web3 Developer", "issuer": "C# Corner", "date": "2024", "image": "/assets/certificates/web3.png"}
     ],
     "resume": {
         "pdf_link": "/resume.pdf",
@@ -101,6 +112,10 @@ COMMANDS = {
     "whoami": "guest_user@portfolio-os",
     "gui": "Switching to GUI mode...",
 }
+
+@app.route('/')
+def home():
+    return "Backend is running. Please access the frontend (usually http://localhost:5173) to view the Portfolio OS."
 
 @app.route('/api/data', methods=['GET'])
 def get_data():

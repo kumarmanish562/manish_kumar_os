@@ -14,11 +14,12 @@ const Layout = () => {
   const contentRef = useRef(null);
   const location = useLocation();
 
+  // Entrance Animation
   useEffect(() => {
     if (viewMode === 'gui' && contentRef.current) {
       gsap.fromTo(contentRef.current,
-        { opacity: 0, scale: 0.98 },
-        { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
+        { opacity: 0, scale: 0.98, filter: "blur(10px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }
       );
     }
   }, [viewMode]);
@@ -26,45 +27,40 @@ const Layout = () => {
   if (viewMode === 'terminal') return <FullScreenTerminal />;
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-transparent text-gray-300 font-sans selection:bg-cyan-500/30">
+    <div className="relative w-screen h-screen overflow-hidden text-gray-200">
 
+      {/* 1. Background Layer (Fixed & Behind) */}
       <Background3D />
 
-      {/* Interactive Elements need pointer-events-auto */}
-      <div className="pointer-events-auto">
+      {/* 2. UI Layer (TopBar & Sidebar) - Clickable */}
+      <div className="relative z-50 pointer-events-auto">
         <TopBar />
         <Sidebar />
       </div>
 
-      {/* Main Content Wrapper */}
-      {/* ADDED: pointer-events-none to let clicks pass through to background */}
-      <div className="absolute top-10 left-14 right-0 bottom-8 overflow-hidden flex flex-col z-10 pointer-events-none">
+      {/* 3. Content Layer - Scrollable */}
+      {/* 'pointer-events-none' on wrapper allows clicks to pass through empty spaces */}
+      <div className="absolute inset-0 top-14 left-0 md:left-20 overflow-hidden pointer-events-none z-10">
         <main
           ref={contentRef}
-          // ADDED: pointer-events-auto so you can still scroll and click content
-          className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar p-6 scroll-smooth pointer-events-auto"
+          className="h-full overflow-y-auto overflow-x-hidden p-4 md:p-8 pointer-events-auto scroll-smooth"
         >
-          <div className="max-w-7xl mx-auto min-h-full">
+          <div className="max-w-7xl mx-auto min-h-[85vh] flex flex-col">
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="h-full"
+                initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
+                transition={{ duration: 0.4, ease: "circOut" }}
+                className="flex-1"
               >
                 <Outlet />
               </motion.div>
             </AnimatePresence>
-
-            <div className="h-20"></div>
+            <Footer />
           </div>
         </main>
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-8 z-50 bg-[#0d1117]/80 backdrop-blur pointer-events-auto">
-        <Footer />
       </div>
 
     </div>
