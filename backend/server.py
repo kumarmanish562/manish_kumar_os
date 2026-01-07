@@ -31,62 +31,131 @@ PORTFOLIO_DATA = {
 }
 ,
     "skills": {
-        "languages": [
-            {"name": "Python", "level": 90},
-            {"name": "JavaScript", "level": 85},
-            {"name": "Java", "level": 70},
-            {"name": "HTML/CSS", "level": 95}
-        ],
-        "frameworks": [
-            {"name": "React", "level": 90},
-            {"name": "Node.js", "level": 75},
-            {"name": "Express", "level": 75},
-            {"name": "Flask", "level": 85},
-            {"name": "TailwindCSS", "level": 95}
-        ],
-        "tools": [
-            {"name": "Git & GitHub", "level": 90},
-            {"name": "Docker", "level": 75},
-            {"name": "AWS", "level": 60}
-        ],
-        "soft_skills": [
-            "Problem Solving", "Team Work", "Communication", "Adaptability"
-        ]
-    },
+    "languages": [
+        { "name": "HTML", "level": 95, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+        { "name": "CSS", "level": 95, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
+        { "name": "JavaScript", "level": 88, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+        { "name": "Python", "level": 85, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+        { "name": "Java (Basics)", "level": 70, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" }
+    ],
+    "frameworks": [
+        { "name": "React.js", "level": 90, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+        { "name": "Node.js", "level": 80, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+        { "name": "Express.js", "level": 80, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
+        { "name": "Tailwind CSS", "level": 95, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+        { "name": "Flask", "level": 75, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" }
+    ],
+    "databases": [
+        { "name": "MongoDB", "level": 80, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" }
+    ],
+    "tools": [
+        { "name": "Git & GitHub", "level": 90, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+        { "name": "Docker (Basics)", "level": 70, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+        { "name": "AWS (Basics)", "level": 65, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+        { "name": "Figma (UI Basics)", "level": 65, "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" }
+    ],
+    "soft_skills": [
+        { "name": "Problem Solving", "level": 98 },
+        { "name": "Team Collaboration", "level": 95 },
+        { "name": "Clear Communication", "level": 90 },
+        { "name": "Fast Learning", "level": 92 },
+        { "name": "Adaptability", "level": 95 }
+    ]
+}
+,
     "projects": [
         {
             "id": 1,
-            "title": "Depression Detection System",
-            "tech_stack": ["React", "Python", "ML", "DASS-21"],
-            "description": "An AI-powered system analyzing text and speech patterns to detect early signs of depression.",
-            "screenshot": "https://placehold.co/600x400/0d1117/00f3ff?text=Depression+Detection",
-            "links": {"github": "https://github.com", "demo": "https://demo.com"}
+            "title": "SnapBasket Online Grocery Store",
+            "tech_stack": ["React", "Tailwind CSS", "Vite", "React Router DOM", "React Icons", "React Context"],
+            "description": "A modern React-based online grocery shopping platform featuring comprehensive user authentication, dynamic shopping cart functionality, and fully responsive design. Built with Tailwind CSS and Vite, this e-commerce application showcases over 100 high-quality product images across multiple categories including fresh produce, premium cheeses, artisan breads, and gourmet treats. Key features include protected routes, persistent cart state management, real-time price calculations, contact support system, and seamless mobile optimization. The application demonstrates modern web development practices with React Context for state management, JWT authentication, and intuitive user experience design.",
+            "screenshot": "/assets/projects/SnapBasket-Preview.png",
+            "links": {"github": "https://github.com/kumarmanish562/SnapBasket.git", "demo": "https://snap-basket-6kwc.vercel.app/"}
         },
         {
             "id": 2,
-            "title": "Portfolio OS",
-            "tech_stack": ["React", "Three.js", "GSAP", "Tailwind v4"],
-            "description": "A dual-mode portfolio website featuring a futuristic GUI and a fully functional terminal interface.",
-            "screenshot": "https://placehold.co/600x400/0d1117/bc13fe?text=Portfolio+OS",
-            "links": {"github": "https://github.com", "demo": "#"}
+            "title": "VR World Metaverse",
+            "tech_stack": ["React", "Tailwind CSS", "Vite", "AOS Animation", "React Icons"],
+            "description": "An immersive metaverse platform built with React and Tailwind CSS. This responsive web application features interactive UI elements, animated transitions, and a sleek design that introduces users to virtual reality experiences. Key features include animated hero sections, feature showcases, video demos via popup player, app store integration, and a full dark mode experience. The custom gradient effects and smooth animations create an engaging user experience that highlights the possibilities of VR technology.",
+            "screenshot": "/assets/projects/VR-World.png",
+            "links": {"github": "https://github.com/kumarmanish562/gamer_platform.git", "demo": "https://kumarmanish562.github.io/gamer_platform/"}
+        },
+        {
+            "id": 3,
+            "title": "BiblioStore Web",
+            "tech_stack": ["React", "Tailwind", "Redux", "Heroicons"],
+            "description": "BiblioStore_Web is a sleek and responsive online bookstore built using React, TailwindCSS, Redux, and Heroicons. It offers features like book browsing by category, real-time search, detailed book previews, and a shopping cart. Users can register and log in securely, manage their wishlist, and check out with form validation. After purchasing, users can view their order history. Bilil makes discovering and purchasing books convenient and enjoyable with its minimal yet powerful UI.",
+            "screenshot": "/assets/projects/bibil.png",
+            "links": {"github": "https://github.com/Code-Mars/Bilil/", "demo": "https://code-mars.github.io/Bilil/"}
+        },
+        {
+            "id": 4,
+            "title": "AnMa-Academy",
+            "tech_stack": ["React", "Tailwind", "Heroicons", "HeadlessUI"],
+            "description": "AnMa-Academy is a responsive and modern frontend for an online learning platform built with React, TailwindCSS, and HeadlessUI. It enables users to explore courses, view instructor profiles, watch preview lectures, and register or log in for a personalized learning experience. The clean UI components, dynamic course cards, and responsive layouts provide a seamless experience on all devices.",
+            "screenshot": "/assets/projects/AnMa-Academy.png",
+            "links": {"github": "https://github.com/kumarmanish562/AnMa-Academy.git", "demo": "https://kumarmanish562.github.io/AnMa-Academy/"}
+        },
+        {
+            "id": 5,
+            "title": "MGaming",
+            "tech_stack": ["React", "Vite", "Tailwind CSS", "Heroicons", "SwiperJS", "GSAP"],
+            "description": "MGaming is a next-generation, fully responsive gaming website built with React, Vite, and TailwindCSS. It features trending games, gameplay trailers, user reviews, and upcoming releases. Users can browse by genre, explore featured titles, and enjoy an immersive UI with smooth animations, image sliders, and interactive effects powered by SwiperJS and GSAP.",
+            "screenshot": "/assets/projects/game.png",
+            "links": {"github": "https://github.com/kumarmanish562/MGaming.git", "demo": "https://kumarmanish562.github.io/MGaming/"}
+        },
+        {
+            "id": 6,
+            "title": "Disney+ Hotstar Clone",
+            "tech_stack": ["React", "Vite", "Tailwind CSS", "React Router", "Axios"],
+            "description": "A modern, responsive streaming platform clone built with React, Vite, and Tailwind CSS. This project replicates the Disney+ Hotstar experience with movie and show listings, authentication, and a sleek animated UI. Features include responsive design for all devices, animated banners, interactive cards, user authentication, dynamic routing, and a dark theme inspired by Disney+. The modular component structure makes it easy to customize and extend.",
+            "screenshot": "/assets/projects/disney.png",
+            "links": {"github": "https://github.com/kumarmanish562/disney_clone_frontend.git", "demo": "https://disney-clone-frontend-zeta.vercel.app/"}
+        },
+        {
+            "id": 7,
+            "title": "FigmaLand - Modern Landing Page",
+            "tech_stack": ["HTML5", "CSS3", "JavaScript", "CSS Grid", "Flexbox", "Responsive Design"],
+            "description": "A modern, responsive landing page built with vanilla HTML5, CSS3, and JavaScript. This project showcases a clean, professional design tool website with interactive features, smooth animations, and mobile-first approach. Features include responsive navigation, custom video player, testimonial carousel, contact form validation, partner showcase, and pricing plans. The semantic HTML structure, CSS Grid/Flexbox layouts, and ES6+ JavaScript demonstrate modern web development best practices.",
+            "screenshot": "/assets/projects/figmaland.png",
+            "links": {"github": "https://github.com/kumarmanish562/figmaLand.git", "demo": "https://figma-land-lilac.vercel.app/"}
         }
     ],
     "experience": [
         {
-            "role": "Frontend Intern",
-            "company": "Tech Startup",
-            "date": "Summer 2024",
-            "description": "Worked on the main dashboard components. Optimized load times by 20%.",
-            "technologies": ["React", "Redux", "Sass"]
+            "role": "Frontend Development Intern",
+            "company": "The Black Threat",
+            "date": "Dec 2023 - Jun 2024",
+            "description": "During my internship, I focused on building modern and responsive web interfaces using React.js and Tailwind CSS. I collaborated on real-world projects, improved user experiences, and followed best practices in frontend development. The experience strengthened my skills in component-based design, state management, and API integration.",
+            "technologies": ["React.js", "Tailwind CSS", "JavaScript", "HTML", "CSS", "Git", "Responsive Design"]
         }
     ],
-    "education": {
-        "degree": "B.Tech in Computer Science",
-        "college": "Institute of Technology",
-        "year": "2022 - 2026",
-        "major": "Computer Science & Engineering",
-        "achievements": ["Hackathon Winner 2024", "Dean's List"]
-    },
+    "education": [
+        {
+            "id": 1,
+            "degree": "B.Tech in Computer Science (AI & ML)",
+            "college": "Rungta College of Engineering & Technology, Bhilai",
+            "year": "2022 - 2026",
+            "desc": "Affiliated to CSVTU. Specialization in Artificial Intelligence & Machine Learning.",
+            "achievements": ["Hackathon Winner 2024", "Dean's List"]
+        },
+        {
+            "id": 2,
+            "degree": "Intermediate (Class XII)",
+            "college": "Jagdam College, Chapra",
+            "year": "2019 - 2021",
+            "desc": "Science Stream (PCM) | Bihar School Examination Board",
+            "achievements": ["Score: 376/500", "1st Division"]
+        },
+        {
+            "id": 3,
+            "degree": "Matriculation (Class X)",
+            "college": "Mishra Vidhya Mandir, Ludhiana",
+            "year": "2018 - 2019",
+            "desc": "Standard X | Punjab School Education Board",
+            "achievements": ["Score: 562/650", "Result: Pass"]
+        }
+    ],
     "certifications": [
         {"title": "API Fundamentals Student Expert", "issuer": "Postman", "date": "2024", "image": "/assets/certificates/postman.png"},
         {"title": "Cloud Essentials Knowledge Badge Assessment", "issuer": "AWS Training and Certification", "date": "Sep 2024", "image": "/assets/certificates/aws.png"},
@@ -94,14 +163,14 @@ PORTFOLIO_DATA = {
         {"title": "Full Stack Web3 Developer", "issuer": "C# Corner", "date": "2024", "image": "/assets/certificates/web3.png"}
     ],
     "resume": {
-        "pdf_link": "/resume.pdf",
+        "pdf_link": "/assets/Manish_Kumar_AIML.pdf.pdf",
         "preview_image": "https://placehold.co/600x800/ffff/000000?text=Resume+Preview"
     },
     "contact": {
-        "email": "manish@example.com",
-        "linkedin": "https://linkedin.com/in/manish",
-        "github": "https://github.com/manish",
-        "phone": "+91 98765 43210"
+        "email": "kumar.manish.in.0328@gmail.com",
+        "linkedin": "https://linkedin.com/in/kumarmanish562",
+        "github": "https://github.com/kumarmanish562",
+        "phone": "+91 9334170932"
     }
 }
 
@@ -109,7 +178,7 @@ PORTFOLIO_DATA = {
 COMMANDS = {
     "help": "Available commands: help, cat [section], ls, gui, clear, whoami, date",
     "ls": "sections: home, about, skills, projects, experience, education, certifications, resume, contact",
-    "whoami": "guest_user@portfolio-os",
+    "whoami": "manish kumar",
     "gui": "Switching to GUI mode...",
 }
 

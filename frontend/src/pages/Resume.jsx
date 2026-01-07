@@ -10,46 +10,55 @@ const Resume = () => {
     if (!resume) return <div>Loading...</div>;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="h-[calc(100vh-10rem)] flex flex-col items-center justify-center p-4"
-        >
-            <div className="glass-panel p-10 flex flex-col items-center text-center max-w-md w-full">
-                <div className="w-20 h-20 bg-neon-blue/10 rounded-full flex items-center justify-center text-neon-blue mb-6">
-                    <FileText size={40} />
+        <div className="min-h-[85vh] w-full px-4 lg:px-8 pb-10 pt-10 flex flex-col">
+            <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col space-y-8">
+
+                {/* Header Actions */}
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="text-center md:text-left">
+                        <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+                            CURRICULUM <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">VITAE</span>
+                        </h1>
+                        <p className="text-gray-400 font-mono text-sm mt-2">
+                             // OFFICIAL_DOCUMENT_VIEWER_V1.0
+                        </p>
+                    </div>
+
+                    <a
+                        href={resume.pdf_link}
+                        download="Manish_Kumar_Resume.pdf"
+                        className="group relative px-6 py-3 rounded-xl bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 font-bold tracking-wide overflow-hidden hover:bg-cyan-500 hover:text-black transition-all duration-300"
+                    >
+                        <span className="relative z-10 flex items-center gap-2">
+                            <Download size={20} />
+                            DOWNLOAD_PDF
+                        </span>
+                        <div className="absolute inset-0 bg-cyan-400 blur-xl opacity-0 group-hover:opacity-50 transition-opacity"></div>
+                    </a>
                 </div>
 
-                <h2 className="text-2xl font-bold text-white mb-2">My Resume</h2>
-                <p className="text-gray-400 mb-8">
-                    View my professional background, skills, and accomplishments in detail.
-                </p>
+                {/* PDF Viewer Container */}
+                <div className="flex-1 w-full relative group">
+                    {/* Decorative Border Glow */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl opacity-20 group-hover:opacity-40 blur transition-opacity duration-500"></div>
 
-                <a
-                    href={resume.pdf_link || "#"}
-                    download
-                    className="w-full"
-                >
-                    <button className="glass-btn w-full flex items-center justify-center gap-2 py-3 bg-neon-blue/10 border-neon-blue/50 hover:bg-neon-blue/20 text-white font-medium">
-                        <Download size={20} />
-                        Download PDF
-                    </button>
-                </a>
-
-                {resume.preview_image && (
-                    <div className="mt-8 relative group cursor-pointer overflow-hidden rounded-lg border border-white/10 hidden md:block">
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                            Download to view full
-                        </div>
-                        <img
-                            src={resume.preview_image}
-                            alt="Resume Preview"
-                            className="w-64 opacity-50 blur-[1px] group-hover:blur-sm transition-all grayscale"
-                        />
+                    <div className="relative w-full h-[70vh] md:h-[100vh] bg-[#0f121a] rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+                        <object
+                            data={resume.pdf_link}
+                            type="application/pdf"
+                            className="w-full h-full"
+                        >
+                            <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-4">
+                                <FileText size={48} className="text-gray-600" />
+                                <p>Unable to display PDF directly.</p>
+                                <a href={resume.pdf_link} className="text-cyan-400 hover:underline">Download instead</a>
+                            </div>
+                        </object>
                     </div>
-                )}
+                </div>
+
             </div>
-        </motion.div>
+        </div>
     );
 };
 

@@ -2,8 +2,9 @@ import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as random from "maath/random/dist/maath-random.esm";
+import { usePortfolio } from "../context/PortfolioContext";
 
-const StarField = () => {
+const StarField = ({ theme }) => {
     const groupRef = useRef();
     const pointsRef = useRef();
 
@@ -33,12 +34,14 @@ const StarField = () => {
         groupRef.current.rotation.y += (x - groupRef.current.rotation.y) * delta;
     });
 
+    const starColor = theme === 'dark' ? "#00f3ff" : "#94a3b8";
+
     return (
         <group ref={groupRef} rotation={[0, 0, Math.PI / 4]}>
             <Points ref={pointsRef} positions={sphere} stride={3} frustumCulled={false}>
                 <PointMaterial
                     transparent
-                    color="#00f3ff"
+                    color={starColor}
                     size={0.003}
                     sizeAttenuation={true}
                     depthWrite={false}
@@ -50,12 +53,22 @@ const StarField = () => {
 };
 
 const Background3D = () => {
+    const { theme } = usePortfolio();
+    const isDark = theme === 'dark';
+
+    // Aesthetic Colors
+    const bgColor = isDark ? "#030712" : "#ffffff"; // Deep Space vs Pure White
+    const fogColor = isDark ? "#030712" : "#ffffff";
+
     return (
-        <div className="fixed inset-0 z-[-1] bg-[#030712]">
+        <div
+            className="fixed inset-0 z-[-1] transition-colors duration-700"
+            style={{ backgroundColor: bgColor }}
+        >
             <Canvas camera={{ position: [0, 0, 1] }}>
-                <StarField />
+                <StarField theme={theme} />
                 {/* Fog hides stars as they get too far away */}
-                <fog attach="fog" args={['#030712', 0.5, 2.8]} />
+                <fog attach="fog" args={[fogColor, 0.5, 2.8]} />
             </Canvas>
         </div>
     );

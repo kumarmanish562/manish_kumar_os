@@ -1,130 +1,240 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
-import { motion } from 'framer-motion';
-import { Mail, Linkedin, Github, Send, Phone } from 'lucide-react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { Mail, Linkedin, Github, Send, Phone, Signal, Radio, ShieldCheck, CheckCircle2, Loader2 } from 'lucide-react';
 
 const Contact = () => {
+    const containerRef = useRef(null);
     const { portfolioData } = usePortfolio();
     const { contact } = portfolioData || {};
-    const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success, error
+    const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success
+
+    // --- GSAP Entrance Animation ---
+    useGSAP(() => {
+        if (!contact) return;
+
+        const tl = gsap.timeline();
+
+        // 1. Header Reveal
+        tl.from(".page-header", { y: -20, opacity: 0, duration: 0.6 })
+            .from(".header-line", { width: 0, duration: 0.8, ease: "power2.out" }, "-=0.3");
+
+        // 2. Left Column (Channels)
+        tl.from(".contact-channel", {
+            x: -30,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 0.5,
+            ease: "back.out(1.5)"
+        }, "-=0.5");
+
+        // 3. Right Column (Form)
+        tl.from(".secure-form", {
+            x: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power2.out"
+        }, "-=0.8");
+
+    }, { scope: containerRef, dependencies: [contact] });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setFormStatus('submitting');
-        // Simulate sending
-        setTimeout(() => setFormStatus('success'), 2000);
+
+        // Simulate Network Request
+        setTimeout(() => {
+            setFormStatus('success');
+            gsap.fromTo(".success-message",
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.5, ease: "elastic.out(1, 0.6)" }
+            );
+        }, 2000);
     };
 
-    if (!contact) return <div>Loading...</div>;
+    if (!contact) return null;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12"
-        >
-            {/* Contact Info */}
-            <div className="space-y-8">
-                <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neon-blue to-purple-500">
-                    Get In Touch
-                </h1>
-                <p className="text-gray-400 text-lg leading-relaxed">
-                    I'm currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is always open!
-                </p>
+        <div ref={containerRef} className="min-h-[85vh] w-full px-4 lg:px-8 pb-20 pt-10 flex items-center">
+            <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
-                <div className="space-y-4">
-                    <a href={`mailto:${contact.email}`} className="glass-panel p-4 flex items-center gap-4 hover:bg-white/5 transition-colors group">
-                        <div className="p-3 bg-neon-blue/10 rounded-full text-neon-blue group-hover:scale-110 transition-transform">
-                            <Mail size={20} />
+                {/* LEFT COLUMN: Info & Channels */}
+                <div className="space-y-12">
+
+                    {/* Header */}
+                    <div className="page-header space-y-4">
+                        <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase">
+                            <Radio size={14} className="animate-pulse" />
+                            <span>Signal_Strength: 100%</span>
                         </div>
-                        <span className="text-gray-300">{contact.email}</span>
-                    </a>
-
-                    <a href={contact.linkedin} target="_blank" rel="noreferrer" className="glass-panel p-4 flex items-center gap-4 hover:bg-white/5 transition-colors group">
-                        <div className="p-3 bg-blue-500/10 rounded-full text-blue-500 group-hover:scale-110 transition-transform">
-                            <Linkedin size={20} />
-                        </div>
-                        <span className="text-gray-300">LinkedIn Profile</span>
-                    </a>
-
-                    <a href={contact.github} target="_blank" rel="noreferrer" className="glass-panel p-4 flex items-center gap-4 hover:bg-white/5 transition-colors group">
-                        <div className="p-3 bg-gray-500/10 rounded-full text-gray-300 group-hover:scale-110 transition-transform">
-                            <Github size={20} />
-                        </div>
-                        <span className="text-gray-300">GitHub Profile</span>
-                    </a>
-
-                    {contact.phone && (
-                        <div className="glass-panel p-4 flex items-center gap-4 hover:bg-white/5 transition-colors group">
-                            <div className="p-3 bg-green-500/10 rounded-full text-green-500 group-hover:scale-110 transition-transform">
-                                <Phone size={20} />
-                            </div>
-                            <span className="text-gray-300">{contact.phone}</span>
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="glass-panel p-8">
-                <h3 className="text-xl font-bold text-white mb-6">Send a Message</h3>
-
-                {formStatus === 'success' ? (
-                    <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center text-green-500 mb-4">
-                            <Send size={30} />
-                        </div>
-                        <h4 className="text-xl font-bold text-white">Message Sent!</h4>
-                        <p className="text-gray-400 mt-2">I'll get back to you as soon as possible.</p>
-                        <button onClick={() => setFormStatus('idle')} className="mt-6 text-neon-blue hover:underline">Send another</button>
+                        <h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter">
+                            ESTABLISH <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">CONNECTION</span>
+                        </h1>
+                        <div className="header-line h-1 w-24 bg-gradient-to-r from-cyan-500 to-transparent"></div>
+                        <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                            Open for collaborations and freelance opportunities. Initialize a secure handshake below.
+                        </p>
                     </div>
-                ) : (
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm text-gray-400 mb-1">Name</label>
-                            <input
-                                type="text"
-                                required
-                                className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-blue transition-colors"
-                                placeholder="John Doe"
+
+                    {/* Channels Grid */}
+                    <div className="space-y-4">
+                        <ContactChannel
+                            icon={Mail}
+                            label="Encrypted Mail"
+                            value={contact.email}
+                            href={`mailto:${contact.email}`}
+                            color="text-cyan-400"
+                        />
+                        <ContactChannel
+                            icon={Linkedin}
+                            label="LinkedIn Uplink"
+                            value={contact.linkedin?.split('in/')[1]?.replace('/', '') || "Connect"}
+                            href={contact.linkedin}
+                            color="text-blue-400"
+                        />
+                        <ContactChannel
+                            icon={Github}
+                            label="Code Repository"
+                            value={contact.github?.split('.com/')[1]?.replace('/', '') || "Profile"}
+                            href={contact.github}
+                            color="text-purple-400"
+                        />
+                        {contact.phone && (
+                            <ContactChannel
+                                icon={Phone}
+                                label="Voice Line"
+                                value={contact.phone}
+                                href={`tel:${contact.phone}`}
+                                color="text-green-400"
                             />
-                        </div>
-                        <div>
-                            <label className="block text-sm text-gray-400 mb-1">Email</label>
-                            <input
-                                type="email"
-                                required
-                                className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-blue transition-colors"
-                                placeholder="john@example.com"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm text-gray-400 mb-1">Message</label>
-                            <textarea
-                                required
-                                rows={4}
-                                className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-neon-blue transition-colors resize-none"
-                                placeholder="Hello, I'd like to work with you..."
-                            ></textarea>
+                        )}
+                    </div>
+                </div>
+
+                {/* RIGHT COLUMN: Secure Form */}
+                <div className="secure-form relative">
+
+                    {/* Background Decorative Elements */}
+                    <div className="absolute -inset-1 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl opacity-50"></div>
+
+                    <div className="relative bg-[#0f121a]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden shadow-2xl">
+
+                        {/* Top Bar (Browser/Terminal style) */}
+                        <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs font-mono text-green-400">
+                                <ShieldCheck size={12} />
+                                <span>SECURE_TRANSMISSION</span>
+                            </div>
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={formStatus === 'submitting'}
-                            className="w-full glass-btn py-3 mt-2 bg-neon-blue/10 border-neon-blue/30 text-neon-blue hover:bg-neon-blue/20 flex items-center justify-center gap-2"
-                        >
-                            {formStatus === 'submitting' ? 'Sending...' : (
-                                <>
-                                    Send Message
-                                    <Send size={16} />
-                                </>
-                            )}
-                        </button>
-                    </form>
-                )}
+                        {formStatus === 'success' ? (
+                            <div className="success-message h-[400px] flex flex-col items-center justify-center text-center space-y-6">
+                                <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
+                                    <CheckCircle2 size={40} className="text-green-400" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-white mb-2">Transmission Complete</h3>
+                                    <p className="text-gray-400 max-w-xs mx-auto">
+                                        Your message has been encrypted and delivered to the mainframe.
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => setFormStatus('idle')}
+                                    className="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm text-cyan-400 transition-colors"
+                                >
+                                    Initialize New Uplink
+                                </button>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="group">
+                                    <label className="block text-xs font-mono text-cyan-500 mb-2 uppercase tracking-wider group-focus-within:text-cyan-300">
+                                        // Sender_ID
+                                    </label>
+                                    <input
+                                        type="text"
+                                        required
+                                        placeholder="Enter your name"
+                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-cyan-500/5 transition-all"
+                                    />
+                                </div>
+
+                                <div className="group">
+                                    <label className="block text-xs font-mono text-cyan-500 mb-2 uppercase tracking-wider group-focus-within:text-cyan-300">
+                                        // Reply_Frequency
+                                    </label>
+                                    <input
+                                        type="email"
+                                        required
+                                        placeholder="name@domain.com"
+                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-cyan-500/5 transition-all"
+                                    />
+                                </div>
+
+                                <div className="group">
+                                    <label className="block text-xs font-mono text-cyan-500 mb-2 uppercase tracking-wider group-focus-within:text-cyan-300">
+                                        // Payload_Data
+                                    </label>
+                                    <textarea
+                                        required
+                                        rows={4}
+                                        placeholder="Initialize message sequence..."
+                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-cyan-500/5 transition-all resize-none"
+                                    ></textarea>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={formStatus === 'submitting'}
+                                    className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-4 rounded-lg flex items-center justify-center gap-3 transition-all transform active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                                >
+                                    {formStatus === 'submitting' ? (
+                                        <>
+                                            <Loader2 size={20} className="animate-spin" />
+                                            <span>ENCRYPTING DATA...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>INITIATE UPLOAD</span>
+                                            <Send size={18} />
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                </div>
+
             </div>
-        </motion.div>
+        </div>
     );
 };
+
+// --- Sub-Component: Contact Channel ---
+const ContactChannel = ({ icon: Icon, label, value, href, color }) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="contact-channel group flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/[0.08] transition-all cursor-pointer"
+    >
+        <div className={`p-3 rounded-lg bg-black/30 ${color} group-hover:scale-110 transition-transform`}>
+            <Icon size={24} />
+        </div>
+        <div>
+            <div className="text-xs text-gray-500 font-mono uppercase tracking-wider mb-1">{label}</div>
+            <div className="text-white font-medium group-hover:text-cyan-400 transition-colors">{value}</div>
+        </div>
+        <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-white/30">
+            <Signal size={18} />
+        </div>
+    </a>
+);
 
 export default Contact;

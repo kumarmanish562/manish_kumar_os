@@ -74,27 +74,27 @@ const Home = () => {
                         SYSTEM_ONLINE
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter drop-shadow-2xl">
+                    <h1 className="text-6xl md:text-8xl font-black text-slate-900 dark:text-white leading-[0.9] tracking-tighter drop-shadow-2xl">
                         {home.name.split(" ")[0]} <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600">
                             {home.name.split(" ").slice(1).join(" ")}.
                         </span>
                     </h1>
 
                     {/* Added Headline */}
-                    <h2 className="text-xl md:text-2xl text-cyan-300 font-mono tracking-wide">
+                    <h2 className="text-xl md:text-2xl text-cyan-700 dark:text-cyan-300 font-mono tracking-wide">
                         {home.headline}
                     </h2>
 
-                    <p className="text-lg text-gray-400 max-w-xl leading-relaxed font-light border-l-2 border-white/10 pl-6">
+                    <p className="text-lg text-slate-600 dark:text-gray-400 max-w-xl leading-relaxed font-light border-l-2 border-slate-300/50 dark:border-white/10 pl-6">
                         {home.intro}
                     </p>
 
                     <div className="flex gap-5 pt-4">
-                        <button onClick={() => navigate('/projects')} className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] flex items-center gap-2">
+                        <button onClick={() => navigate('/projects')} className="px-8 py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-bold rounded-xl hover:scale-105 transition-all shadow-xl flex items-center gap-2">
                             View Work <ArrowRight size={18} />
                         </button>
-                        <button onClick={() => navigate('/contact')} className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 transition-all">
+                        <button onClick={() => navigate('/contact')} className="px-8 py-4 bg-slate-100 border border-slate-300 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 transition-all">
                             Contact Me
                         </button>
                     </div>

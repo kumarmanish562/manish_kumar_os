@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Terminal } from 'lucide-react';
 
 export default function TerminalPanel() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([
-    { type: 'system', text: '> Terminal ready. Type "help" for commands.' },
+    { type: 'system', text: 'Kali GNU/Linux Rolling [Version 2026.1]' },
+    { type: 'system', text: 'Type "help" for commands.' },
   ]);
   const terminalRef = useRef(null);
 
@@ -16,11 +16,12 @@ export default function TerminalPanel() {
 
   const commands = {
     help: () => [
-      { type: 'output', text: 'Available commands: help, clear, echo <text>, date' },
+      { type: 'output', text: 'Available commands: help, clear, echo <text>, date, whoami' },
     ],
     clear: () => null,
     date: () => [{ type: 'output', text: new Date().toString() }],
     echo: (args) => [{ type: 'output', text: args.join(' ') }],
+    whoami: () => [{ type: 'output', text: 'root' }],
   };
 
   const handleSubmit = (e) => {
@@ -28,7 +29,8 @@ export default function TerminalPanel() {
     if (!input.trim()) return;
 
     const [cmd, ...args] = input.trim().split(' ');
-    const newHistory = [...history, { type: 'input', text: `$ ${input}` }];
+    // Add command with proper visual structure to history
+    const newHistory = [...history, { type: 'input', text: input }];
 
     if (cmd === 'clear') {
       setHistory([]);
@@ -40,11 +42,13 @@ export default function TerminalPanel() {
       const output = commands[cmd](args);
       if (output) {
         setHistory([...newHistory, ...output]);
+      } else {
+        setHistory(newHistory);
       }
     } else {
       setHistory([
         ...newHistory,
-        { type: 'error', text: `Command not found: ${cmd}` },
+        { type: 'error', text: `zsh: command not found: ${cmd}` },
       ]);
     }
 
@@ -52,41 +56,65 @@ export default function TerminalPanel() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1e1e] text-gray-300 font-mono text-sm">
+    <div className="flex flex-col h-full bg-[#1e1f29] text-gray-300 font-mono text-xs overflow-hidden">
       {/* Terminal Output */}
       <div
         ref={terminalRef}
-        className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+        className="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
+        style={{ fontFamily: '"Fira Code", monospace' }}
       >
-        {history.map((entry, index) => (
-          <div
-            key={index}
-            className={`${
-              entry.type === 'input'
-                ? 'text-green-400'
-                : entry.type === 'error'
-                ? 'text-red-400'
-                : entry.type === 'system'
-                ? 'text-cyan-400'
-                : 'text-gray-300'
-            }`}
-          >
-            {entry.text}
-          </div>
-        ))}
+        {history.map((entry, index) => {
+          if (entry.type === 'input') {
+            return (
+              <div key={index} className="mb-1">
+                <div className="flex flex-wrap">
+                  <span className="text-[#3271d4] mr-1">┌──(</span>
+                  <span className="text-[#dd464c] font-bold">root㉿kali</span>
+                  <span className="text-[#3271d4]">)-[</span>
+                  <span className="text-white">~</span>
+                  <span className="text-[#3271d4]">]</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-[#3271d4] mr-2">└─#</span>
+                  <span className="text-white">{entry.text}</span>
+                </div>
+              </div>
+            );
+          }
+          return (
+            <div
+              key={index}
+              className={`leading-tight whitespace-pre-wrap ml-1 ${entry.type === 'error' ? 'text-red-400' :
+                  entry.type === 'system' ? 'text-blue-400' : 'text-gray-300'
+                }`}
+            >
+              {entry.text}
+            </div>
+          );
+        })}
       </div>
 
-      {/* Input */}
-      <form onSubmit={handleSubmit} className="p-3 bg-[#252526] border-t border-gray-700">
-        <div className="flex items-center gap-2">
-          <span className="text-green-400">$</span>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-gray-300"
-            placeholder="Type a command..."
-          />
+      {/* Input Area */}
+      <form onSubmit={handleSubmit} className="p-2 bg-[#232433] border-t border-black">
+        <div className="flex flex-col">
+          <div className="flex flex-wrap">
+            <span className="text-[#3271d4] mr-1">┌──(</span>
+            <span className="text-[#dd464c] font-bold">root㉿kali</span>
+            <span className="text-[#3271d4]">)-[</span>
+            <span className="text-white">~</span>
+            <span className="text-[#3271d4]">]</span>
+          </div>
+          <div className="flex items-center">
+            <span className="text-[#3271d4] mr-2">└─#</span>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-1 bg-transparent outline-none text-white caret-white"
+              placeholder=""
+              autoComplete="off"
+            />
+          </div>
         </div>
       </form>
     </div>

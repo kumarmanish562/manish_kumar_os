@@ -10,44 +10,87 @@ const Education = () => {
     if (!education) return <div>Loading...</div>;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="max-w-4xl mx-auto space-y-8"
-        >
-            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neon-blue to-purple-500">
-                Education
-            </h1>
+        <div className="min-h-[85vh] w-full px-4 lg:px-8 pb-20 pt-10 flex flex-col justify-center">
+            <div className="max-w-4xl mx-auto w-full space-y-12">
 
-            <div className="glass-panel p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                    <GraduationCap size={120} />
+                {/* Header */}
+                <div className="space-y-4 text-center">
+                    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
+                        ACADEMIC <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-purple-600">TIMELINE</span>
+                    </h1>
+                    <p className="text-cyan-400 font-mono text-sm tracking-[0.2em]">
+                        // LOADING_EDUCATIONAL_RECORDS...
+                    </p>
                 </div>
 
-                <h2 className="text-3xl font-bold text-white mb-2">{education.degree}</h2>
-                <h3 className="text-xl text-neon-blue mb-4">{education.college}</h3>
+                <div className="space-y-8 relative">
+                    {/* Vertical Line */}
+                    <div className="absolute left-0 md:left-1/2 top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent hidden md:block"></div>
 
-                <div className="flex items-center gap-4 text-gray-400 mb-6 font-mono text-sm">
-                    <span className="bg-white/5 px-3 py-1 rounded">{education.year}</span>
-                    <span className="bg-white/5 px-3 py-1 rounded">{education.major}</span>
-                </div>
+                    {education.map((edu, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ y: 50, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: idx * 0.2 }}
+                            className={`flex flex-col md:flex-row gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                        >
+                            {/* Spacer for Timeline Alignment */}
+                            <div className="hidden md:flex flex-1 w-full justify-center items-start pt-2">
+                                <div className="w-4 h-4 rounded-full bg-black border-2 border-cyan-500 shadow-[0_0_10px_rgba(0,243,255,0.5)] z-10 relative">
+                                    <div className="absolute inset-0 bg-cyan-400 opacity-50 animate-ping rounded-full"></div>
+                                </div>
+                            </div>
 
-                <div>
-                    <h4 className="flex items-center gap-2 text-lg font-semibold mb-3">
-                        <Award size={18} className="text-yellow-500" />
-                        Achievements
-                    </h4>
-                    <ul className="space-y-2">
-                        {education.achievements?.map((ach, idx) => (
-                            <li key={idx} className="flex items-center gap-2 text-gray-300">
-                                <span className="w-1.5 h-1.5 bg-neon-blue rounded-full"></span>
-                                {ach}
-                            </li>
-                        ))}
-                    </ul>
+                            {/* Content Card */}
+                            <div className="flex-1">
+                                <div className="glass-panel p-6 md:p-8 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-colors group relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-20 bg-cyan-500/5 blur-[60px] rounded-full pointer-events-none group-hover:bg-cyan-500/10 transition-colors"></div>
+
+                                    <div className="relative z-10">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono rounded-full">
+                                                {edu.year}
+                                            </span>
+                                            <span className="h-px flex-1 bg-white/10"></span>
+                                        </div>
+
+                                        <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                                            {edu.degree}
+                                        </h3>
+                                        <h4 className="text-lg text-gray-400 mb-4 flex items-center gap-2">
+                                            <GraduationCap size={18} />
+                                            {edu.college}
+                                        </h4>
+
+                                        <p className="text-gray-400 text-sm mb-6 leading-relaxed border-l-2 border-white/10 pl-4">
+                                            {edu.desc}
+                                        </p>
+
+                                        {edu.achievements && (
+                                            <div className="space-y-3">
+                                                <h5 className="flex items-center gap-2 text-sm font-semibold text-white/80">
+                                                    <Award size={14} className="text-yellow-500" />
+                                                    Achievements
+                                                </h5>
+                                                <div className="flex flex-wrap gap-2 block">
+                                                    {edu.achievements.map((ach, i) => (
+                                                        <span key={i} className="text-xs bg-black/40 border border-white/10 px-2 py-1 rounded text-gray-300">
+                                                            {ach}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
