@@ -8,13 +8,19 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 const Terminal = () => {
-    const { toggleViewMode } = usePortfolio();
-    const [history, setHistory] = useState([
-        "Kali GNU/Linux Rolling [Version 2026.1]",
-        "System Initialized...",
-        "Type 'help' for available commands.",
-        ""
-    ]);
+    const [welcomeLines] = useState(() => {
+        const now = new Date();
+        const version = `${now.getFullYear()}.${now.getMonth() + 1}`;
+        const dateStr = now.toLocaleString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        return [
+            `Manish Kumar OS [Version ${version}]`,
+            `System Initialized on ${dateStr}`,
+            "Type 'help' for available commands.",
+            ""
+        ];
+    });
+
+    const [history, setHistory] = useState([]);
     const [input, setInput] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
     const bottomRef = useRef(null);
@@ -88,8 +94,18 @@ const Terminal = () => {
 
                     {/* LEFT: Identity */}
                     <div className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600">
-                            <User size={14} className="text-slate-300" />
+                        <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600 overflow-hidden">
+                            <img
+                                src="/profile.jpg"
+                                alt="User"
+                                className="w-full h-full object-cover grayscale contrast-125 brightness-110"
+                                style={{
+                                    maskImage: 'radial-gradient(circle, black 1px, transparent 1px)',
+                                    WebkitMaskImage: 'radial-gradient(circle, black 1px, transparent 1px)',
+                                    maskSize: '2px 2px',
+                                    WebkitMaskSize: '2px 2px'
+                                }}
+                            />
                         </div>
                         <span className="text-sm font-bold text-slate-200 tracking-wide font-sans">Manish Kumar</span>
                     </div>
@@ -99,10 +115,10 @@ const Terminal = () => {
                         <ThemeToggle />
                         <button
                             onClick={() => toggleViewMode('gui')}
-                            className="flex items-center gap-2 px-3 py-1 bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white border border-red-600/30 rounded text-xs font-bold uppercase tracking-wider transition-all"
+                            className="flex items-center gap-2 px-3 py-1 bg-blue-600/10 hover:bg-blue-600 text-blue-500 hover:text-white border border-blue-600/30 rounded text-xs font-bold uppercase tracking-wider transition-all"
                         >
                             <CloseIcon size={14} />
-                            Exit Terminal
+                            GUI MODE
                         </button>
                     </div>
                 </div>
@@ -116,6 +132,12 @@ const Terminal = () => {
                         onClick={handleTerminalClick}
                         style={{ fontFamily: '"Fira Code", monospace' }}
                     >
+                        {/* Static Welcome Message */}
+                        {welcomeLines.map((item, i) => (
+                            <div key={`welcome-${i}`} className="text-gray-300 mb-1">{item}</div>
+                        ))}
+
+                        {/* Dynamic History */}
                         {history.map((item, i) => {
                             if (typeof item === 'string') return <div key={i} className="text-gray-300 mb-1">{item}</div>;
 
@@ -124,7 +146,7 @@ const Terminal = () => {
                                     <div key={i} className="mb-0">
                                         <div className="flex flex-wrap">
                                             <span className="text-[#3271d4] mr-2">┌──(</span>
-                                            <span className="text-[#dd464c] font-bold">root㉿kali</span>
+                                            <span className="text-[#dd464c] font-bold">root㉿manish</span>
                                             <span className="text-[#3271d4]">)-[</span>
                                             <span className="text-white">~</span>
                                             <span className="text-[#3271d4]">]</span>
@@ -140,7 +162,99 @@ const Terminal = () => {
                             if (item.type === 'output') {
                                 return (
                                     <div key={i} className="mb-2 text-gray-300 leading-relaxed whitespace-pre-wrap">
-                                        {item.lines.map((line, idx) => <div key={idx}>{line}</div>)}
+                                        {item.lines.map((line, idx) => {
+                                            // 1. Key-Value pairs (e.g. "BIO: ...")
+                                            const matchKV = line.match(/^(\s*)([^:]+)(:\s*)(.*)$/);
+                                            if (matchKV) {
+                                                const [_, indent, key, colon, value] = matchKV;
+                                                const isHeader = !value.trim();
+                                                return (
+                                                    <div key={idx} className="flex items-baseline">
+                                                        <span className="whitespace-pre">{indent}</span>
+                                                        <span className={`${isHeader ? 'text-cyan-400 font-bold underline decoration-cyan-400/30 underline-offset-4' : 'text-green-400 font-semibold'} shrink-0`}>
+                                                            {key}
+                                                        </span>
+                                                        <span className="text-gray-500 mr-2 whitespace-pre shrink-0">{colon}</span>
+
+                                                        {/* Check if value is a URL or Image Path */}
+                                                        {(() => {
+                                                            const trimmed = value.trim();
+                                                            const isUrl = trimmed.startsWith('http://') || trimmed.startsWith('https://');
+                                                            const isLocalFile = trimmed.startsWith('/') && /\.(jpg|jpeg|png|gif|webp|svg|pdf)$/i.test(trimmed);
+                                                            const isEmail = trimmed.includes('@') && !trimmed.includes(' ');
+
+                                                            const keyUpper = key.trim().toUpperCase();
+                                                            const shouldRenderImage = (keyUpper === 'PREVIEW IMAGE' || keyUpper === 'IMAGE') && (isUrl || isLocalFile);
+
+                                                            if (shouldRenderImage) {
+                                                                return (
+                                                                    <div key={idx} className="flex flex-col items-start w-full">
+                                                                        <div className="flex items-baseline mb-2">
+                                                                            <span className="whitespace-pre">{indent}</span>
+                                                                            <span className="text-green-400 font-semibold shrink-0">
+                                                                                {key}
+                                                                            </span>
+                                                                            <span className="text-gray-500 mr-2 whitespace-pre shrink-0">{colon}</span>
+                                                                        </div>
+                                                                        <a href={trimmed} target="_blank" rel="noopener noreferrer" className="block w-full">
+                                                                            <img
+                                                                                src={trimmed}
+                                                                                alt={key}
+                                                                                className="w-full max-w-full md:max-w-2xl rounded border border-gray-700 hover:opacity-90 transition-opacity"
+                                                                            />
+                                                                        </a>
+                                                                    </div>
+                                                                );
+                                                            }
+
+                                                            if (isUrl || isLocalFile) {
+                                                                return (
+                                                                    <a
+                                                                        href={trimmed}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="flex-1 break-words text-blue-400 underline hover:text-blue-300 transition-colors cursor-pointer"
+                                                                    >
+                                                                        {value}
+                                                                    </a>
+                                                                );
+                                                            } else if (isEmail) {
+                                                                return (
+                                                                    <a
+                                                                        href={`mailto:${trimmed}`}
+                                                                        className="flex-1 break-words text-blue-400 underline hover:text-blue-300 transition-colors cursor-pointer"
+                                                                    >
+                                                                        {value}
+                                                                    </a>
+                                                                );
+                                                            }
+
+                                                            return <span className="text-gray-300 flex-1 break-words">{value}</span>;
+                                                        })()}
+                                                    </div>
+                                                );
+                                            }
+
+                                            // 2. Help/List Items (e.g. "about   - Info")
+                                            const matchList = line.match(/^(\s*)(\w+)(\s+-\s+)(.*)$/);
+                                            if (matchList) {
+                                                const [_, indent, cmd, separator, desc] = matchList;
+                                                return (
+                                                    <div key={idx} className="flex">
+                                                        <span className="whitespace-pre">{indent}</span>
+                                                        <span className="text-yellow-400 font-bold">{cmd}</span>
+                                                        <span className="text-gray-500 whitespace-pre">{separator}</span>
+                                                        <span className="text-gray-300">{desc}</span>
+                                                    </div>
+                                                );
+                                            }
+
+                                            // Default (Handle empty lines from backend newlines)
+                                            if (!line.trim()) {
+                                                return <div key={idx} className="h-6"></div>;
+                                            }
+                                            return <div key={idx}>{line}</div>
+                                        })}
                                     </div>
                                 );
                             }
@@ -151,7 +265,7 @@ const Terminal = () => {
                         <div className="mt-0">
                             <div className="flex flex-wrap">
                                 <span className="text-[#3271d4] mr-2">┌──(</span>
-                                <span className="text-[#dd464c] font-bold">root㉿kali</span>
+                                <span className="text-[#dd464c] font-bold">root㉿manish</span>
                                 <span className="text-[#3271d4]">)-[</span>
                                 <span className="text-white">~</span>
                                 <span className="text-[#3271d4]">]</span>
@@ -215,31 +329,43 @@ const RightPanel = () => {
             {/* Dot Pattern Background */}
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#4b5563 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
 
-            {/* Glassy/Premium Profile Card */}
-            <div className="profile-card relative w-80 h-[32rem] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-700/50 group bg-gray-900">
-                {/* Image - Grayscale & High Contrast */}
-                <div className="absolute inset-0">
+            {/* Glassy/Premium Profile Card - Flexible Height, Fixed Width */}
+            <div className="profile-card relative flex flex-col w-[22rem] h-[95%] mt-4 rounded-[2rem] overflow-hidden shadow-2xl border border-slate-700/50 group bg-gray-900">
+                {/* Image Section - Maximized (78%) */}
+                <div className="relative w-full h-[78%] bg-black overflow-hidden">
                     <img
                         src="/profile.jpg"
                         alt="Manish Kumar"
-                        className="w-full h-full object-cover grayscale contrast-110 brightness-90 transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                        className="w-full h-full object-cover grayscale contrast-125 brightness-110 transition-transform duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                        style={{
+                            maskImage: 'radial-gradient(circle, black 1.5px, transparent 1.5px)',
+                            WebkitMaskImage: 'radial-gradient(circle, black 1.5px, transparent 1.5px)',
+                            maskSize: '4px 4px',
+                            WebkitMaskSize: '4px 4px'
+                        }}
                     />
-                    {/* Gradient Overlay for Text Readability */}
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
                 </div>
 
-                {/* Content Overlay */}
-                <div className="absolute bottom-0 inset-x-0 p-8 flex flex-col items-center text-center">
-                    <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Manish Kumar</h2>
-                    <p className="text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-3">@manishkumar.dev</p>
-                    <div className="h-[1px] w-12 bg-gray-600 mb-4"></div>
-                    <p className="text-gray-300 text-sm leading-relaxed font-light">
-                        Full Stack Web Developer | React & Node.js | AI/ML Enthusiast
+                {/* Content Section - Compact Footer (22%) */}
+                <div
+                    className="relative w-full h-[22%] flex flex-col items-center justify-center p-4 text-center z-10 bg-[#0c0d12] border-t border-white/5"
+                    style={{
+                        maskImage: 'radial-gradient(circle, black 1.5px, transparent 1.5px)',
+                        WebkitMaskImage: 'radial-gradient(circle, black 1.5px, transparent 1.5px)',
+                        maskSize: '3px 3px',
+                        WebkitMaskSize: '3px 3px'
+                    }}
+                >
+                    <h2 className="text-3xl font-bold text-white mb-1 tracking-tight">Manish Kumar</h2>
+                    <p className="text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-2">kumarmanish562.dev</p>
+                    <div className="h-[1px] w-12 bg-gray-600 mb-2"></div>
+                    <p className="text-gray-300 text-xs leading-relaxed font-light">
+                        Full Stack Web Developer | React & Node.js
                     </p>
                 </div>
 
                 {/* Top Corner Icon */}
-                <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80">
+                <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 z-20">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
                 </div>
             </div>

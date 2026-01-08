@@ -176,7 +176,7 @@ PORTFOLIO_DATA = {
 
 # --- COMMANDS LOGIC ---
 COMMANDS = {
-    "help": "Available commands: help, cat [section], ls, gui, clear, whoami, date",
+    "help": "Available commands:\n\nabout          - Information about me\ncertification  - My professional certifications\ncontact        - How to reach me\neducation      - My educational background\nexperience     - My work experience\nhome           - Portfolio home screen\nprojects       - My technical projects\nresume         - Link to my resume\nskill          - My technical skills\nclear          - Clear the terminal screen\nexit           - Exit to GUI mode",
     "ls": "sections: home, about, skills, projects, experience, education, certifications, resume, contact",
     "whoami": "manish kumar",
     "gui": "Switching to GUI mode...",
@@ -203,6 +203,61 @@ def handle_command():
     args = parts[1:] if len(parts) > 1 else []
 
     response_text = ""
+    # Helper to format data nicely with alignment
+    def format_data(d, indent=0, use_extra_spacing=False, ignore_keys=None):
+        if ignore_keys is None:
+            ignore_keys = []
+            
+        res = ""
+        spacing = " " * indent
+        
+        if isinstance(d, dict):
+            # Calculate max key length for alignment of simple values
+            simple_keys = [k.replace('_', ' ').upper() for k, v in d.items() 
+                          if not isinstance(v, (dict, list)) and k.lower() not in ignore_keys]
+            max_len = max((len(k) for k in simple_keys), default=0)
+            
+            for k, v in d.items():
+                if k.lower() in ignore_keys:
+                    continue
+                    
+                key_str = k.replace('_', ' ').upper()
+                
+                if isinstance(v, (dict, list)):
+                    # Nested structures get their own block (no padding needed on the header usually)
+                    # Use standard spacing (False) for nested items unless we decide otherwise
+                    res += f"{spacing}{key_str}:\n{format_data(v, indent + 2, use_extra_spacing, ignore_keys)}\n"
+                else:
+                    # Simple Value: Pad the key to align colons
+                    padding = " " * (max_len - len(key_str))
+                    # Apply extra newline only if requested (e.g. for 'about' section)
+                    suffix = "\n\n" if use_extra_spacing else "\n"
+                    res += f"{spacing}{key_str}:{padding}   {v}{suffix}"
+        
+        elif isinstance(d, list):
+            for item in d:
+                if isinstance(item, dict):
+                    res += f"{spacing}{'-'*40}\n"
+                    # For list items (like certifications), we typically want compact lines inside the item
+                    res += format_data(item, indent, False, ignore_keys)
+                else:
+                    res += f"{spacing}- {item}\n"
+            if d and isinstance(d[0], dict):
+                 res += f"{spacing}{'-'*40}\n"
+                    
+        return res
+
+    # Update Data (Runtime override for specific user requests)
+    # The user asked to remove experience from stats and show projects 'real time'
+    if 'about' in PORTFOLIO_DATA and 'stats' in PORTFOLIO_DATA['about']:
+        stats = PORTFOLIO_DATA['about']['stats']
+        if 'experience_level' in stats:
+            del stats['experience_level']
+        # Rename/Update to imply "real time" - Calculate dynamically
+        project_count = len(PORTFOLIO_DATA.get('projects', []))
+        stats['Realtime_Projects'] = f"{project_count} Live Projects"
+        if 'project_count' in stats:
+            del stats['project_count']
 
     if base_cmd == 'cat':
         if not args:
@@ -210,9 +265,9 @@ def handle_command():
         else:
             section = args[0]
             if section in PORTFOLIO_DATA:
-                # Pretty print json or string representation of the section
-                import json
-                response_text = json.dumps(PORTFOLIO_DATA[section], indent=2)
+                use_spacing = (section == 'about')
+                ignores = ['screenshot'] if section == 'projects' else []
+                response_text = format_data(PORTFOLIO_DATA[section], 0, use_spacing, ignores)
             else:
                 response_text = f"Error: Section '{section}' not found. Try 'ls'."
     
@@ -225,6 +280,20 @@ def handle_command():
 
     elif base_cmd == 'exit':
         response_text = "Switching to GUI mode..." # Frontend should handle the switch
+
+    # DIRECT SECTION ACCESS (e.g. 'about', 'projects')
+    elif base_cmd in PORTFOLIO_DATA or base_cmd in ['skill', 'certification']:
+        section_key = base_cmd
+        # Handle aliases
+        if base_cmd == 'skill': section_key = 'skills'
+        if base_cmd == 'certification': section_key = 'certifications'
+        
+        if section_key in PORTFOLIO_DATA:
+            use_spacing = (section_key == 'about')
+            ignores = ['screenshot'] if section_key == 'projects' else []
+            response_text = format_data(PORTFOLIO_DATA[section_key], 0, use_spacing, ignores)
+        else:
+             response_text = f"Error: Data for '{base_cmd}' not found."
 
     else:
         response_text = f"Command not found: {base_cmd}. Type 'help' for available commands."
