@@ -12,7 +12,16 @@ export const PortfolioProvider = ({ children }) => {
   });
 
   // 2. View Mode State (GUI vs Terminal)
-  const [viewMode, setViewMode] = useState('gui');
+  const [viewMode, setViewMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('portfolio-view-mode') || 'gui';
+    }
+    return 'gui';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('portfolio-view-mode', viewMode);
+  }, [viewMode]);
 
   // 3. Data State
   const [portfolioData, setPortfolioData] = useState(null);
@@ -28,8 +37,12 @@ export const PortfolioProvider = ({ children }) => {
   };
 
   // 5. Toggle View Mode Function
-  const toggleViewMode = () => {
-    setViewMode((prev) => (prev === 'gui' ? 'terminal' : 'gui'));
+  const toggleViewMode = (mode) => {
+    if (mode) {
+      setViewMode(mode);
+    } else {
+      setViewMode((prev) => (prev === 'gui' ? 'terminal' : 'gui'));
+    }
   };
 
   // 6. Apply Theme to Body (Tailwind dark mode handling)

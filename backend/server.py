@@ -164,7 +164,7 @@ PORTFOLIO_DATA = {
     ],
     "resume": {
         "pdf_link": "/assets/Manish_Kumar_AIML.pdf.pdf",
-        "preview_image": "https://placehold.co/600x800/ffff/000000?text=Resume+Preview"
+        "preview_image": "/assets/Manish_Kumar_AIML.pdf.pdf"
     },
     "contact": {
         "email": "kumar.manish.in.0328@gmail.com",

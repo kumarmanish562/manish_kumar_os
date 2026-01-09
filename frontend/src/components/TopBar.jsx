@@ -158,17 +158,11 @@ const TopBar = () => {
 
         {/* Mode Switch */}
         <button
-          onClick={toggleViewMode}
-          className={`
-            h-7 flex items-center gap-2 px-3 rounded text-[10px] font-bold tracking-widest uppercase transition-all
-            ${viewMode === 'terminal'
-              ? 'bg-cyan-100 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 hover:bg-cyan-200 dark:hover:bg-cyan-900/40'
-              : 'bg-green-100 dark:bg-green-900/20 text-emerald-700 dark:text-emerald-400 border border-green-200 dark:border-emerald-500/30 hover:bg-green-200 dark:hover:bg-green-900/40'
-            }
-          `}
+          onClick={() => toggleViewMode('terminal')}
+          className="h-7 flex items-center gap-2 px-3 rounded-md border border-green-500/50 bg-green-500/5 hover:bg-green-500/10 text-green-500 text-[11px] font-mono font-bold tracking-wider transition-all shadow-[0_0_10px_rgba(34,197,94,0.1)] hover:shadow-[0_0_15px_rgba(34,197,94,0.2)]"
         >
-          <Terminal size={12} />
-          {viewMode === 'terminal' ? 'GUI_MODE' : 'TERMINAL'}
+          <span className="text-lg leading-none mb-1">&gt;_</span>
+          TERMINAL
         </button>
       </div>
     </div>
