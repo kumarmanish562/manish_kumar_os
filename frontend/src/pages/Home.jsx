@@ -1,13 +1,31 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { usePortfolio } from '../context/PortfolioContext';
-import { ArrowRight, MousePointer2 } from 'lucide-react';
+import { ArrowRight, MousePointer2, Github, Linkedin, Mail, MessageSquare } from 'lucide-react';
 
 const Home = () => {
     const containerRef = useRef(null);
     const navigate = useNavigate();
     const { portfolioData } = usePortfolio();
+    const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
+    const colors = [
+        '#06b6d4', // Cyan
+        '#8b5cf6', // Violet
+        '#d946ef', // Fuchsia
+        '#f43f5e', // Rose
+        '#f59e0b', // Amber
+        '#10b981', // Emerald
+        '#3b82f6'  // Blue
+    ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentColorIndex((prev) => (prev + 1) % colors.length);
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [colors.length]);
 
     // --- 3D TILT LOGIC ---
     const x = useMotionValue(0);
@@ -103,7 +121,12 @@ const Home = () => {
                 {/* RIGHT: Interactive 3D Tilt Card */}
                 <div className="relative h-[600px] flex items-center justify-center perspective-[2000px] order-1 lg:order-2">
                     <motion.div
-                        style={{ rotateX, rotateY }} // Apply the dynamic rotation here
+                        style={{
+                            rotateX,
+                            rotateY,
+                            borderColor: colors[currentColorIndex],
+                            boxShadow: `0 0 30px ${colors[currentColorIndex]}40`
+                        }}
                         whileHover={{ scale: 1.05, cursor: "grab" }}
                         drag
                         dragConstraints={containerRef}
@@ -111,13 +134,67 @@ const Home = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
-                        className="w-80 h-[480px] rounded-[2.5rem] bg-[#0f121a]/80 backdrop-blur-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] p-4 flex flex-col items-center relative overflow-hidden group"
+                        className="w-96 h-[560px] rounded-[2.5rem] bg-[#0f121a]/80 backdrop-blur-2xl border-2 shadow-[0_0_50px_rgba(0,0,0,0.5)] p-8 flex flex-col items-center relative overflow-visible group transition-colors duration-1000 ease-in-out"
                     >
                         {/* Internal Shine Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />
+
+                        {/* --- FRAME ELEMENTS --- */}
+
+                        {/* OR: If the user wants them ON the border space (padding area) */}
+
+                        {/* Let's place them IN the padding space as requested ("same space") */}
+
+                        {/* TOP LABEL - GitHub */}
+                        <a
+                            href="https://github.com/kumarmanish562"
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 cursor-pointer"
+                        >
+                            <Github size={12} />
+                            <span className="text-[10px] font-mono tracking-widest uppercase">kumarmanish562</span>
+                        </a>
+
+                        {/* RIGHT LABEL - Email */}
+                        <a
+                            href="mailto:kumar.manish.in.0328@gmail.com"
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute left-38 top-1/2 -translate-y-1/2 translate-x-[42%] rotate-90 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 whitespace-nowrap cursor-pointer"
+                        >
+                            <span className="text-[10px] font-mono tracking-widest uppercase">kumar.manish.in.0328@gmail.com</span>
+                            <Mail size={12} className="-rotate-90" />
+                        </a>
+
+                        {/* BOTTOM LABEL - LinkedIn */}
+                        <a
+                            href="https://linkedin.com/in/kumarmanish562"
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 cursor-pointer"
+                        >
+                            <Linkedin size={12} />
+                            <span className="text-[10px] font-mono tracking-widest uppercase">kumarmanish562</span>
+                        </a>
+
+                        {/* LEFT LABEL - Discord */}
+                        <div
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigator.clipboard.writeText('kumarmanish562');
+                                alert('Discord ID copied!');
+                            }}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 -translate-x-[42%] -rotate-90 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 whitespace-nowrap cursor-pointer"
+                        >
+                            <MessageSquare size={12} className="rotate-90" />
+                            <span className="text-[10px] font-mono tracking-widest uppercase">kumarmanish562</span>
+                        </div>
+
 
                         {/* Image */}
-                        <div className="w-full h-full rounded-[2rem] overflow-hidden relative bg-black border border-white/5">
+                        <div className="w-full h-full rounded-[2rem] overflow-hidden relative bg-black border border-white/5 z-10">
                             <img
                                 src={home.profile_image}
                                 alt={home.name}
@@ -134,9 +211,9 @@ const Home = () => {
                             </div>
                         </div>
 
-                        {/* Drag Hint */}
-                        <div className="absolute top-6 right-6 p-3 bg-black/40 backdrop-blur-md rounded-full border border-white/10 text-white/50 group-hover:text-white transition-colors z-20">
-                            <MousePointer2 size={16} />
+                        {/* Drag Hint - Re-positioned to not conflict with labels */}
+                        <div className="absolute top-6 right-6 p-2 bg-black/40 backdrop-blur-md rounded-full border border-white/10 text-white/50 group-hover:text-white transition-colors z-20">
+                            <MousePointer2 size={14} />
                         </div>
                     </motion.div>
                 </div>

@@ -1,4 +1,5 @@
 python.exe server.py
  .\venv\Scripts\Activate  
+ python .\server.py  
  
  

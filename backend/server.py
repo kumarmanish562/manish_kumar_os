@@ -10,7 +10,7 @@ PORTFOLIO_DATA = {
     "name": "Manish Kumar",
     "headline": "Full Stack Web Developer | React & Node.js | AI/ML Enthusiast",
     "intro": "B.Tech 4rd-year student passionate about building scalable web applications, AI-powered systems, and real-world tech solutions using modern frameworks.",
-    "social_handle": "@manishkumar.dev",
+    "social_handle": "@kumarmanish562",
     "profile_image": "/profile.jpg",
     "buttons": [
         { "label": "View Projects", "action": "navigate", "target": "/projects" },
@@ -19,7 +19,7 @@ PORTFOLIO_DATA = {
 }
 ,
     "about": {
-    "bio": "I am a B.Tech 3rd-year student and a passionate full stack web developer with a strong interest in building practical, user-focused applications. I enjoy working on real-world projects that combine clean UI, efficient backend logic, and modern technologies. Along with web development, I am actively exploring AI and machine learning to solve meaningful problems.",
+    "bio": "I am a B.Tech 4rd-year student and a passionate full stack web developer with a strong interest in building practical, user-focused applications. I enjoy working on real-world projects that combine clean UI, efficient backend logic, and modern technologies. Along with web development, I am actively exploring AI and machine learning to solve meaningful problems.",
     
     "skills_summary": "I have hands-on experience with HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, Python, and basic machine learning concepts. I have worked on projects involving AI-based systems, full stack applications, and modern UI design. I am a fast learner, comfortable working in teams, and always eager to improve my technical and problem-solving skills.",
     
