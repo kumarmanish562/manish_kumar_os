@@ -34,7 +34,7 @@ const StarField = ({ theme }) => {
         groupRef.current.rotation.y += (x - groupRef.current.rotation.y) * delta;
     });
 
-    const starColor = theme === 'dark' ? "#00f3ff" : "#94a3b8";
+    const starColor = theme === 'dark' ? "#00f3ff" : "#0f172a"; // Cyan for dark, Dark Slate for light
 
     return (
         <group ref={groupRef} rotation={[0, 0, Math.PI / 4]}>
@@ -42,7 +42,8 @@ const StarField = ({ theme }) => {
                 <PointMaterial
                     transparent
                     color={starColor}
-                    size={0.003}
+                    size={theme === 'dark' ? 0.003 : 0.004} // Slightly larger in light mode
+
                     sizeAttenuation={true}
                     depthWrite={false}
                     blending={2}

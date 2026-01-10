@@ -84,7 +84,7 @@ const Home = () => {
                     transition={{ duration: 0.8 }}
                     className="z-20 space-y-8 order-2 lg:order-1"
                 >
-                    <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-cyan-950/30 border border-cyan-500/20 text-cyan-400 text-xs font-mono tracking-widest backdrop-blur-md">
+                    <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-cyan-500/10 dark:bg-cyan-950/30 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-mono tracking-widest backdrop-blur-md">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
@@ -134,16 +134,12 @@ const Home = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
-                        className="w-96 h-[560px] rounded-[2.5rem] bg-[#0f121a]/80 backdrop-blur-2xl border-2 shadow-[0_0_50px_rgba(0,0,0,0.5)] p-8 flex flex-col items-center relative overflow-visible group transition-colors duration-1000 ease-in-out"
+                        className="w-96 h-[560px] rounded-[2.5rem] bg-white/60 dark:bg-[#0f121a]/80 backdrop-blur-2xl border-2 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] p-8 flex flex-col items-center relative overflow-visible group transition-colors duration-1000 ease-in-out"
                     >
                         {/* Internal Shine Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-slate-400/20 dark:from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />
 
-                        {/* --- FRAME ELEMENTS --- */}
-
-                        {/* OR: If the user wants them ON the border space (padding area) */}
-
-                        {/* Let's place them IN the padding space as requested ("same space") */}
+                        {/* --- FRAME ELEMENTS (Dynamic Icons) --- */}
 
                         {/* TOP LABEL - GitHub */}
                         <a
@@ -151,9 +147,14 @@ const Home = () => {
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 cursor-pointer"
+                            className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-slate-500 dark:text-white/40 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors z-30 cursor-pointer whitespace-nowrap"
                         >
-                            <Github size={12} />
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                            >
+                                <Github size={12} />
+                            </motion.div>
                             <span className="text-[10px] font-mono tracking-widest uppercase">kumarmanish562</span>
                         </a>
 
@@ -161,10 +162,15 @@ const Home = () => {
                         <a
                             href="mailto:kumar.manish.in.0328@gmail.com"
                             onClick={(e) => e.stopPropagation()}
-                            className="absolute left-38 top-1/2 -translate-y-1/2 translate-x-[42%] rotate-90 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 whitespace-nowrap cursor-pointer"
+                            className="absolute right-4 top-1/2 translate-x-1/2 -translate-y-1/2 rotate-90 flex items-center gap-1.5 text-slate-500 dark:text-white/40 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors z-30 whitespace-nowrap cursor-pointer"
                         >
                             <span className="text-[10px] font-mono tracking-widest uppercase">kumar.manish.in.0328@gmail.com</span>
-                            <Mail size={12} className="-rotate-90" />
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                            >
+                                <Mail size={12} className="-rotate-90" />
+                            </motion.div>
                         </a>
 
                         {/* BOTTOM LABEL - LinkedIn */}
@@ -173,9 +179,14 @@ const Home = () => {
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 cursor-pointer"
+                            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-slate-500 dark:text-white/40 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors z-30 cursor-pointer whitespace-nowrap"
                         >
-                            <Linkedin size={12} />
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                            >
+                                <Linkedin size={12} />
+                            </motion.div>
                             <span className="text-[10px] font-mono tracking-widest uppercase">kumarmanish562</span>
                         </a>
 
@@ -186,33 +197,37 @@ const Home = () => {
                                 navigator.clipboard.writeText('kumarmanish562');
                                 alert('Discord ID copied!');
                             }}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 -translate-x-[42%] -rotate-90 flex items-center gap-1.5 text-white/40 hover:text-cyan-400 transition-colors z-30 whitespace-nowrap cursor-pointer"
+                            className="absolute left-4 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-90 flex items-center gap-1.5 text-slate-500 dark:text-white/40 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors z-30 whitespace-nowrap cursor-pointer"
                         >
-                            <MessageSquare size={12} className="rotate-90" />
+                            <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                            >
+                                <MessageSquare size={12} className="rotate-90" />
+                            </motion.div>
                             <span className="text-[10px] font-mono tracking-widest uppercase">kumarmanish562</span>
                         </div>
 
-
                         {/* Image */}
-                        <div className="w-full h-full rounded-[2rem] overflow-hidden relative bg-black border border-white/5 z-10">
+                        <div className="w-full h-full rounded-[2rem] overflow-hidden relative bg-slate-100 dark:bg-black border border-slate-200 dark:border-white/5 z-10">
                             <img
                                 src={home.profile_image}
                                 alt={home.name}
                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105"
                                 onError={(e) => { e.target.src = 'https://placehold.co/400x600/111827/00f3ff?text=User'; }}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-black/90 via-transparent to-transparent group-hover:from-black/90 transition-all duration-700"></div>
 
                             <div className="absolute bottom-8 left-6 z-10 text-left">
-                                <h2 className="text-3xl font-bold text-white">{home.name}</h2>
-                                <p className="text-cyan-400 font-mono text-xs tracking-wider mt-1 opacity-80">
+                                <h2 className="text-3xl font-bold text-slate-900 dark:text-white group-hover:text-white transition-colors duration-700">{home.name}</h2>
+                                <p className="text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-400 font-mono text-xs tracking-wider mt-1 opacity-80 transition-colors duration-700">
                                     {home.social_handle || '@core_dev'}
                                 </p>
                             </div>
                         </div>
 
                         {/* Drag Hint - Re-positioned to not conflict with labels */}
-                        <div className="absolute top-6 right-6 p-2 bg-black/40 backdrop-blur-md rounded-full border border-white/10 text-white/50 group-hover:text-white transition-colors z-20">
+                        <div className="absolute top-6 right-6 p-2 bg-white/40 dark:bg-black/40 backdrop-blur-md rounded-full border border-slate-200 dark:border-white/10 text-slate-500 dark:text-white/50 group-hover:text-slate-900 dark:group-hover:text-white transition-colors z-20">
                             <MousePointer2 size={14} />
                         </div>
                     </motion.div>

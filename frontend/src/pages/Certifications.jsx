@@ -40,11 +40,11 @@ const Certifications = () => {
 
                 {/* --- Page Header --- */}
                 <div className="page-header text-center space-y-4">
-                    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
+                    <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter">
                         CERTIFIED <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-purple-600">MASTERY</span>
                     </h1>
-                    <div className="header-badge inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-gray-400 font-mono text-xs tracking-wider">
-                        <ShieldCheck size={14} className="text-green-400" />
+                    <div className="header-badge inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-gray-400 font-mono text-xs tracking-wider">
+                        <ShieldCheck size={14} className="text-green-500 dark:text-green-400" />
                         <span>VERIFIED_CREDENTIALS: {certifications.length}</span>
                     </div>
                 </div>
@@ -56,10 +56,10 @@ const Certifications = () => {
                             key={idx}
                             layoutId={`card-${idx}`}
                             onClick={() => setSelectedImg(cert.image)}
-                            className="cert-card group relative bg-[#0f121a]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all duration-500 cursor-pointer flex flex-col h-full hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(0,243,255,0.1)]"
+                            className="cert-card group relative bg-white/60 dark:bg-[#0f121a]/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-cyan-500/30 transition-all duration-500 cursor-pointer flex flex-col h-full hover:-translate-y-2 hover:shadow-xl dark:hover:shadow-[0_10px_40px_-10px_rgba(0,243,255,0.1)]"
                         >
                             {/* Image Section */}
-                            <div className="h-48 w-full overflow-hidden relative border-b border-white/5">
+                            <div className="h-48 w-full overflow-hidden relative border-b border-slate-200 dark:border-white/5">
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10" />
                                 <img
                                     src={cert.image}
@@ -87,20 +87,20 @@ const Certifications = () => {
                                 <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/5 blur-2xl rounded-full pointer-events-none group-hover:bg-cyan-500/10 transition-colors"></div>
 
                                 <div className="flex-1 space-y-2">
-                                    <h3 className="text-xl font-bold text-white leading-tight group-hover:text-cyan-400 transition-colors line-clamp-2">
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-tight group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-2">
                                         {cert.title}
                                     </h3>
-                                    <p className="text-sm text-gray-400 font-medium">
+                                    <p className="text-sm text-slate-600 dark:text-gray-400 font-medium">
                                         {cert.issuer}
                                     </p>
                                 </div>
 
-                                <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-center text-xs font-mono text-gray-500">
+                                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-white/5 flex justify-between items-center text-xs font-mono text-slate-500 dark:text-gray-500">
                                     <div className="flex items-center gap-2">
                                         <Calendar size={12} />
                                         <span>{cert.date}</span>
                                     </div>
-                                    <span className="group-hover:text-cyan-400 transition-colors">ID: CONFIRMED</span>
+                                    <span className="group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">ID: CONFIRMED</span>
                                 </div>
                             </div>
                         </motion.div>

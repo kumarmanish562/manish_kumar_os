@@ -42,7 +42,7 @@ const Projects = () => {
                         <FolderGit2 size={18} />
                         <span>/root/projects</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
+                    <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter">
                         SELECTED <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">WORKS</span>
                     </h1>
                     <div className="header-line h-1 w-32 bg-gradient-to-r from-cyan-500 to-transparent"></div>
@@ -103,11 +103,11 @@ const ProjectCard = ({ project }) => {
         >
             <div
                 ref={cardRef}
-                className="relative h-full bg-[#0f121a]/80 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-300 shadow-2xl hover:border-cyan-500/30 flex flex-col"
+                className="relative h-full bg-white/60 dark:bg-[#0f121a]/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden transition-all duration-300 shadow-xl hover:border-cyan-500/30 flex flex-col"
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 {/* 1. Image Area with Interactive Overlay */}
-                <div className="relative h-64 overflow-hidden border-b border-white/5 bg-[#050505]">
+                <div className="relative h-64 overflow-hidden border-b border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-[#050505]">
                     <img
                         src={project.screenshot}
                         alt={project.title}
@@ -136,23 +136,23 @@ const ProjectCard = ({ project }) => {
                     </div>
 
                     {/* Badge */}
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-xs font-mono text-cyan-400 border-l-2 border-l-cyan-400">
+                    <div className="absolute top-4 left-4 px-3 py-1 bg-white/40 dark:bg-black/60 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-full text-xs font-mono text-cyan-600 dark:text-cyan-400 border-l-2 border-l-cyan-400">
                         v1.0.0
                     </div>
                 </div>
 
                 {/* 2. Content Area */}
-                <div className="p-8 flex flex-col flex-1 relative z-10 bg-gradient-to-b from-transparent to-[#050505]/50">
+                <div className="p-8 flex flex-col flex-1 relative z-10 bg-gradient-to-b from-transparent to-slate-50/5 dark:to-[#050505]/50">
 
                     {/* Title */}
                     <div className="mb-4">
-                        <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300">
                             {project.title}
                         </h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-400 leading-relaxed mb-6 flex-1 text-sm">
+                    <p className="text-slate-600 dark:text-gray-400 leading-relaxed mb-6 flex-1 text-sm">
                         {project.description}
                     </p>
 
@@ -166,7 +166,7 @@ const ProjectCard = ({ project }) => {
                             {project.tech_stack.map((tech, i) => (
                                 <span
                                     key={i}
-                                    className="px-2.5 py-1 text-xs rounded-md bg-white/5 border border-white/10 text-cyan-200/80 group-hover:border-cyan-500/20 group-hover:bg-cyan-500/5 transition-colors"
+                                    className="px-2.5 py-1 text-xs rounded-md bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-cyan-200/80 group-hover:border-cyan-500/20 group-hover:bg-cyan-50 dark:group-hover:bg-cyan-500/5 transition-colors"
                                 >
                                     {tech}
                                 </span>

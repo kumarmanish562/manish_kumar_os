@@ -3,7 +3,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import { usePortfolio } from "../context/PortfolioContext";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 import Background3D from "./Background3D";
 import FullScreenTerminal from "./FullScreenTerminal";
 import { AnimatePresence, motion } from "framer-motion";
@@ -58,7 +57,6 @@ const Layout = () => {
                 <Outlet />
               </motion.div>
             </AnimatePresence>
-            <Footer />
           </div>
         </main>
       </div>

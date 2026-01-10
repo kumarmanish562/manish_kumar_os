@@ -15,10 +15,10 @@ const Education = () => {
 
                 {/* Header */}
                 <div className="space-y-4 text-center">
-                    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter">
+                    <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter">
                         ACADEMIC <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-blue to-purple-600">TIMELINE</span>
                     </h1>
-                    <p className="text-cyan-400 font-mono text-sm tracking-[0.2em]">
+                    <p className="text-slate-500 dark:text-cyan-400 font-mono text-sm tracking-[0.2em]">
                         // LOADING_EDUCATIONAL_RECORDS...
                     </p>
                 </div>
@@ -38,45 +38,45 @@ const Education = () => {
                         >
                             {/* Spacer for Timeline Alignment */}
                             <div className="hidden md:flex flex-1 w-full justify-center items-start pt-2">
-                                <div className="w-4 h-4 rounded-full bg-black border-2 border-cyan-500 shadow-[0_0_10px_rgba(0,243,255,0.5)] z-10 relative">
+                                <div className="w-4 h-4 rounded-full bg-white dark:bg-black border-2 border-cyan-500 shadow-[0_0_10px_rgba(0,243,255,0.5)] z-10 relative">
                                     <div className="absolute inset-0 bg-cyan-400 opacity-50 animate-ping rounded-full"></div>
                                 </div>
                             </div>
 
                             {/* Content Card */}
                             <div className="flex-1">
-                                <div className="glass-panel p-6 md:p-8 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-colors group relative overflow-hidden">
+                                <div className="p-6 md:p-8 rounded-2xl bg-white/60 dark:bg-black/20 dark:glass-panel border border-slate-200 dark:border-white/5 hover:border-cyan-500/30 transition-colors group relative overflow-hidden backdrop-blur-md shadow-lg">
                                     <div className="absolute top-0 right-0 p-20 bg-cyan-500/5 blur-[60px] rounded-full pointer-events-none group-hover:bg-cyan-500/10 transition-colors"></div>
 
                                     <div className="relative z-10">
                                         <div className="flex items-center gap-3 mb-4">
-                                            <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono rounded-full">
+                                            <span className="px-3 py-1 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 text-cyan-700 dark:text-cyan-400 text-xs font-mono rounded-full">
                                                 {edu.year}
                                             </span>
-                                            <span className="h-px flex-1 bg-white/10"></span>
+                                            <span className="h-px flex-1 bg-slate-200 dark:bg-white/10"></span>
                                         </div>
 
-                                        <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors">
+                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                                             {edu.degree}
                                         </h3>
-                                        <h4 className="text-lg text-gray-400 mb-4 flex items-center gap-2">
+                                        <h4 className="text-lg text-slate-600 dark:text-gray-400 mb-4 flex items-center gap-2">
                                             <GraduationCap size={18} />
                                             {edu.college}
                                         </h4>
 
-                                        <p className="text-gray-400 text-sm mb-6 leading-relaxed border-l-2 border-white/10 pl-4">
+                                        <p className="text-slate-600 dark:text-gray-400 text-sm mb-6 leading-relaxed border-l-2 border-slate-300 dark:border-white/10 pl-4">
                                             {edu.desc}
                                         </p>
 
                                         {edu.achievements && (
                                             <div className="space-y-3">
-                                                <h5 className="flex items-center gap-2 text-sm font-semibold text-white/80">
-                                                    <Award size={14} className="text-yellow-500" />
+                                                <h5 className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-white/80">
+                                                    <Award size={14} className="text-yellow-600 dark:text-yellow-500" />
                                                     Achievements
                                                 </h5>
                                                 <div className="flex flex-wrap gap-2 block">
                                                     {edu.achievements.map((ach, i) => (
-                                                        <span key={i} className="text-xs bg-black/40 border border-white/10 px-2 py-1 rounded text-gray-300">
+                                                        <span key={i} className="text-xs bg-slate-100 dark:bg-black/40 border border-slate-200 dark:border-white/10 px-2 py-1 rounded text-slate-700 dark:text-gray-300">
                                                             {ach}
                                                         </span>
                                                     ))}

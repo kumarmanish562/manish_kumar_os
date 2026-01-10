@@ -76,10 +76,10 @@ const Skills = () => {
 
             {/* Header */}
             <div className="text-center space-y-4 mb-8">
-                <h2 className="page-title text-5xl md:text-7xl font-black text-white tracking-tighter">
+                <h2 className="page-title text-5xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tighter">
                     TECHNICAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">ARSENAL</span>
                 </h2>
-                <div className="page-subtitle flex justify-center items-center gap-2 text-gray-400 font-mono text-sm">
+                <div className="page-subtitle flex justify-center items-center gap-2 text-slate-500 dark:text-gray-400 font-mono text-sm">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                     // SYSTEM_DIAGNOSTIC: SKILL_MATRIX_LOADED
                 </div>
@@ -89,17 +89,17 @@ const Skills = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {sections.map((section, idx) => (
                     <TiltCard key={idx} className="skill-card">
-                        <div className={`relative p-8 rounded-3xl bg-[#0f121a]/80 backdrop-blur-xl border border-white/5 transition-all duration-500 ${section.border} group h-full overflow-hidden`}>
+                        <div className={`relative p-8 rounded-3xl bg-white/60 dark:bg-[#0f121a]/80 backdrop-blur-xl border border-slate-200 dark:border-white/5 transition-all duration-500 ${section.border} group h-full overflow-hidden`}>
 
                             {/* Background Glow */}
                             <div className={`absolute top-0 right-0 p-20 ${section.bg} opacity-5 blur-[80px] rounded-full pointer-events-none`}></div>
 
                             {/* Section Title */}
-                            <div className="flex items-center gap-4 mb-8 border-b border-white/5 pb-4">
-                                <div className={`p-3 rounded-xl bg-white/5 border border-white/10 ${section.color} shadow-lg`}>
+                            <div className="flex items-center gap-4 mb-8 border-b border-slate-200 dark:border-white/5 pb-4">
+                                <div className={`p-3 rounded-xl bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 ${section.color} shadow-lg`}>
                                     <section.icon size={28} />
                                 </div>
-                                <h3 className="text-2xl font-bold text-white tracking-wide">{section.title}</h3>
+                                <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-wide">{section.title}</h3>
                             </div>
 
                             {/* Skills List */}
@@ -113,7 +113,7 @@ const Skills = () => {
                                             <div className="flex justify-between items-end mb-2">
                                                 <div className="flex items-center gap-3">
                                                     {/* Icon Rendering Logic */}
-                                                    <div className={`p-1.5 rounded-lg bg-white/5 border border-white/10 group-hover/item:border-${section.color.split('-')[1]}-500/30 transition-colors`}>
+                                                    <div className={`p-1.5 rounded-lg bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 group-hover/item:border-${section.color.split('-')[1]}-500/30 transition-colors`}>
                                                         {skill.icon ? (
                                                             <img
                                                                 src={skill.icon}
@@ -121,23 +121,23 @@ const Skills = () => {
                                                                 className="w-5 h-5 object-contain"
                                                             />
                                                         ) : (
-                                                            <div className={`text-gray-500 group-hover/item:${section.color} transition-colors`}>
+                                                            <div className={`text-slate-500 dark:text-gray-500 group-hover/item:${section.color} transition-colors`}>
                                                                 <Zap size={18} />
                                                             </div>
                                                         )}
                                                     </div>
 
-                                                    <span className="font-medium text-gray-300 group-hover/item:text-white transition-colors">
+                                                    <span className="font-medium text-slate-700 dark:text-gray-300 group-hover/item:text-black dark:group-hover/item:text-white transition-colors">
                                                         {skill.name}
                                                     </span>
                                                 </div>
-                                                <span className={`text-xs font-mono opacity-50 group-hover/item:opacity-100 ${section.color}`}>
+                                                <span className={`text-xs font-mono opacity-70 dark:opacity-50 group-hover/item:opacity-100 ${section.color}`}>
                                                     {skill.level}%
                                                 </span>
                                             </div>
 
                                             {/* Energy Bar */}
-                                            <div className="h-2 w-full bg-black/50 rounded-full overflow-hidden border border-white/5">
+                                            <div className="h-2 w-full bg-slate-200 dark:bg-black/50 rounded-full overflow-hidden border border-slate-300 dark:border-white/5">
                                                 <div
                                                     className={`progress-bar-fill h-full rounded-full relative overflow-hidden ${section.bg} shadow-[0_0_10px_currentColor] opacity-80`}
                                                     style={{ width: `${skill.level}%` }}
