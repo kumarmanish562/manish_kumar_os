@@ -184,7 +184,64 @@ COMMANDS = {
 
 @app.route('/')
 def home():
-    return "Backend is running. Please access the frontend (usually http://localhost:5173) to view the Portfolio OS."
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Portfolio OS | Backend</title>
+        <style>
+            body {
+                background-color: #030712;
+                color: #e2e8f0;
+                font-family: 'Courier New', Courier, monospace;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .container {
+                text-align: center;
+                border: 1px solid #1e293b;
+                padding: 2rem;
+                border-radius: 1rem;
+                background: rgba(30, 41, 59, 0.5);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+            }
+            h1 { color: #00f3ff; margin-bottom: 1rem; }
+            p { color: #94a3b8; margin-bottom: 2rem; }
+            .status {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                border-radius: 9999px;
+                background: rgba(34, 197, 94, 0.1);
+                color: #4ade80;
+                font-size: 0.875rem;
+                border: 1px solid rgba(34, 197, 94, 0.2);
+            }
+            a {
+                color: #38bdf8;
+                text-decoration: none;
+                border-bottom: 1px dashed #38bdf8;
+            }
+            a:hover { color: #0ea5e9; border-bottom-style: solid; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>SYSTEM_CORE :: ONLINE</h1>
+            <p>The backend API servers are operational.</p>
+            <div class="status">STATUS: RATED_EXCELLENT</div>
+            <br/><br/>
+            <p>Access the frontend interface at: <a href="http://localhost:5173">http://localhost:5173</a></p>
+        </div>
+    </body>
+    </html>
+    """
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
@@ -301,4 +358,4 @@ def handle_command():
     return jsonify({"output": response_text, "command": cmd_str})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, host='0.0.0.0')

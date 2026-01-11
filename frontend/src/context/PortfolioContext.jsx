@@ -56,7 +56,9 @@ export const PortfolioProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/data');
+        // Use relative path - Vite proxy will forward this to http://127.0.0.1:5000/api/data
+        // This works for both localhost and mobile devices on the network
+        const response = await fetch('/api/data');
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
         setPortfolioData(data);

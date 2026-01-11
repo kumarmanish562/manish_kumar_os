@@ -66,6 +66,9 @@ const ProjectCard = ({ project }) => {
 
     const handleMouseMove = (e) => {
         if (!cardRef.current) return;
+        // Disable 3D tilt on mobile
+        if (window.innerWidth < 768) return;
+
         const rect = cardRef.current.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -115,7 +118,7 @@ const ProjectCard = ({ project }) => {
                         onError={(e) => { e.target.src = 'https://placehold.co/800x600/111827/00f3ff?text=Project+Preview'; }}
                     />
 
-                    {/* Overlay (Appears on Hover) */}
+                    {/* Overlay (Appears on Hover) - Always visible on mobile if needed, or stick to tap behavior */}
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                         <a
                             href={project.links.demo}

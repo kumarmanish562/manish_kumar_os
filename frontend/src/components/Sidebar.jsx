@@ -22,7 +22,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-4">
+    <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-4">
 
       {/* Glass Container */}
       <motion.div

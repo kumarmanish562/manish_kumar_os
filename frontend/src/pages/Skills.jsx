@@ -163,6 +163,9 @@ const TiltCard = ({ children, className }) => {
 
     const handleMouseMove = (e) => {
         if (!cardRef.current) return;
+        // Disable on mobile
+        if (window.innerWidth < 768) return;
+
         const rect = cardRef.current.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;

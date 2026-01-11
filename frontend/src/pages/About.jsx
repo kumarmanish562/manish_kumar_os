@@ -17,6 +17,8 @@ const About = () => {
         const card = cardRef.current;
 
         const handleMouseDown = () => {
+            // Disable on mobile
+            if (window.innerWidth < 768) return;
             isDragging.current = true;
             document.body.style.cursor = 'grabbing';
             gsap.to(card, { scale: 0.98, duration: 0.2 });
@@ -36,6 +38,8 @@ const About = () => {
 
         const handleMouseMove = (e) => {
             if (!isDragging.current) return;
+            // Double check
+            if (window.innerWidth < 768) return;
 
             const { clientX, clientY } = e;
             const x = (clientX / window.innerWidth - 0.5) * 50; // High sensitivity for drag
@@ -86,11 +90,11 @@ const About = () => {
     ];
 
     return (
-        <div className="min-h-[85vh] flex items-center justify-center w-full px-4 lg:px-8 overflow-hidden">
+        <div className="min-h-[85vh] flex items-center justify-center w-full px-4 lg:px-8 overflow-hidden pt-10 md:pt-0">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full max-w-7xl">
 
                 {/* LEFT COLUMN: Narrative & Info (Span 7) */}
-                <div className="lg:col-span-7 space-y-8 z-10">
+                <div className="lg:col-span-7 space-y-8 z-10 order-2 lg:order-1">
 
                     {/* Header */}
                     <div className="space-y-4">

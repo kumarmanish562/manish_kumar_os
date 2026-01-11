@@ -37,6 +37,9 @@ const Home = () => {
 
     const handleMouseMove = (e) => {
         if (!containerRef.current) return;
+        // Disable tilt on small screens
+        if (window.innerWidth < 768) return;
+
         const rect = containerRef.current.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
@@ -73,16 +76,16 @@ const Home = () => {
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="min-h-[85vh] flex items-center justify-center w-full px-4 overflow-hidden"
+            className="min-h-[85vh] flex items-center justify-center w-full px-4 overflow-hidden pt-10 md:pt-0"
         >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 w-full max-w-7xl items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 w-full max-w-7xl items-center">
 
                 {/* LEFT: Text Content */}
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="z-20 space-y-8 order-2 lg:order-1"
+                    className="z-20 space-y-6 md:space-y-8 order-2 lg:order-1 text-center lg:text-left"
                 >
                     <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-cyan-500/10 dark:bg-cyan-950/30 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-mono tracking-widest backdrop-blur-md">
                         <span className="relative flex h-2 w-2">
@@ -92,7 +95,7 @@ const Home = () => {
                         SYSTEM_ONLINE
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-black text-slate-900 dark:text-white leading-[0.9] tracking-tighter drop-shadow-2xl">
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 dark:text-white leading-[0.9] tracking-tighter drop-shadow-2xl">
                         {home.name.split(" ")[0]} <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600">
                             {home.name.split(" ").slice(1).join(" ")}.
@@ -100,41 +103,41 @@ const Home = () => {
                     </h1>
 
                     {/* Added Headline */}
-                    <h2 className="text-xl md:text-2xl text-cyan-700 dark:text-cyan-300 font-mono tracking-wide">
+                    <h2 className="text-lg md:text-2xl text-cyan-700 dark:text-cyan-300 font-mono tracking-wide">
                         {home.headline}
                     </h2>
 
-                    <p className="text-lg text-slate-600 dark:text-gray-400 max-w-xl leading-relaxed font-light border-l-2 border-slate-300/50 dark:border-white/10 pl-6">
+                    <p className="text-base md:text-lg text-slate-600 dark:text-gray-400 max-w-xl leading-relaxed font-light lg:border-l-2 lg:border-slate-300/50 lg:dark:border-white/10 lg:pl-6 mx-auto lg:mx-0">
                         {home.intro}
                     </p>
 
-                    <div className="flex gap-5 pt-4">
-                        <button onClick={() => navigate('/projects')} className="px-8 py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-bold rounded-xl hover:scale-105 transition-all shadow-xl flex items-center gap-2">
+                    <div className="flex gap-4 md:gap-5 pt-4 justify-center lg:justify-start">
+                        <button onClick={() => navigate('/projects')} className="px-6 md:px-8 py-3 md:py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-bold rounded-xl hover:scale-105 transition-all shadow-xl flex items-center gap-2 text-sm md:text-base">
                             View Work <ArrowRight size={18} />
                         </button>
-                        <button onClick={() => navigate('/contact')} className="px-8 py-4 bg-slate-100 border border-slate-300 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 transition-all">
+                        <button onClick={() => navigate('/contact')} className="px-6 md:px-8 py-3 md:py-4 bg-slate-100 border border-slate-300 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 transition-all text-sm md:text-base">
                             Contact Me
                         </button>
                     </div>
                 </motion.div>
 
                 {/* RIGHT: Interactive 3D Tilt Card */}
-                <div className="relative h-[600px] flex items-center justify-center perspective-[2000px] order-1 lg:order-2">
+                <div className="relative h-[500px] md:h-[600px] flex items-center justify-center perspective-[2000px] order-1 lg:order-2 w-full">
                     <motion.div
                         style={{
-                            rotateX,
-                            rotateY,
+                            rotateX: window.innerWidth >= 768 ? rotateX : 0,
+                            rotateY: window.innerWidth >= 768 ? rotateY : 0,
                             borderColor: colors[currentColorIndex],
                             boxShadow: `0 0 30px ${colors[currentColorIndex]}40`
                         }}
-                        whileHover={{ scale: 1.05, cursor: "grab" }}
-                        drag
+                        whileHover={{ scale: window.innerWidth >= 768 ? 1.05 : 1, cursor: "grab" }}
+                        drag={window.innerWidth >= 768}
                         dragConstraints={containerRef}
                         dragElastic={0.1}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
-                        className="w-96 h-[560px] rounded-[2.5rem] bg-white/60 dark:bg-[#0f121a]/80 backdrop-blur-2xl border-2 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] p-8 flex flex-col items-center relative overflow-visible group transition-colors duration-1000 ease-in-out"
+                        className="w-full max-w-xs md:max-w-md h-[460px] md:h-[560px] rounded-[2.5rem] bg-white/60 dark:bg-[#0f121a]/80 backdrop-blur-2xl border-2 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] p-6 md:p-8 flex flex-col items-center relative overflow-visible group transition-colors duration-1000 ease-in-out"
                     >
                         {/* Internal Shine Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-slate-400/20 dark:from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />

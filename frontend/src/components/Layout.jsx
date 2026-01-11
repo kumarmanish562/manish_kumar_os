@@ -39,10 +39,12 @@ const Layout = () => {
 
       {/* 3. Content Layer - Scrollable */}
       {/* 'pointer-events-none' on wrapper allows clicks to pass through empty spaces */}
-      <div className="absolute inset-0 top-14 left-0 md:left-20 overflow-hidden pointer-events-none z-10">
+      {/* 3. Content Layer - Scrollable */}
+      {/* 'pointer-events-none' on wrapper allows clicks to pass through empty spaces */}
+      <div className="absolute inset-0 top-14 left-0 lg:left-20 overflow-hidden pointer-events-none z-10 w-full">
         <main
           ref={contentRef}
-          className="h-full overflow-y-auto overflow-x-hidden p-4 md:p-8 pointer-events-auto scroll-smooth"
+          className="h-full w-full overflow-y-auto overflow-x-hidden p-4 md:p-8 pb-32 md:pb-8 pointer-events-auto scroll-smooth custom-scrollbar"
         >
           <div className="max-w-7xl mx-auto min-h-[85vh] flex flex-col">
             <AnimatePresence mode="wait">
@@ -52,7 +54,7 @@ const Layout = () => {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
                 transition={{ duration: 0.4, ease: "circOut" }}
-                className="flex-1"
+                className="flex-1 w-full"
               >
                 <Outlet />
               </motion.div>
