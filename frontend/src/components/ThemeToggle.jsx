@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 import { usePortfolio } from "../context/PortfolioContext";
 
-const ThemeToggle = () => {
+const ThemeToggle = ({ compact = false }) => {
   const { theme, toggleTheme } = usePortfolio();
   const isDark = theme === "dark";
 
@@ -27,7 +27,8 @@ const ThemeToggle = () => {
       {/* 2. Main Capsule Container */}
       <div
         className={`
-          relative flex items-center gap-2 px-2 py-1.5 rounded-full border border-white/10 backdrop-blur-xl transition-all duration-500
+          relative flex items-center rounded-full border border-white/10 backdrop-blur-xl transition-all duration-500
+          ${compact ? 'gap-1 px-1.5 py-0.5' : 'gap-2 px-2 py-1.5'}
           ${isDark
             ? "bg-[#0b0f16]/90 shadow-[inset_0_1px_4px_rgba(0,0,0,0.8)]"
             : "bg-white/90 shadow-[inset_0_1px_4px_rgba(0,0,0,0.1)]"
@@ -35,7 +36,7 @@ const ThemeToggle = () => {
         `}
       >
         {/* Sun Icon */}
-        <div className="relative z-10 flex items-center justify-center w-5 h-5">
+        <div className={`relative z-10 flex items-center justify-center ${compact ? 'w-4 h-4' : 'w-5 h-5'}`}>
           <motion.div
             animate={{
               scale: isDark ? 0.6 : 1,
@@ -45,18 +46,19 @@ const ThemeToggle = () => {
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
             className={isDark ? "text-gray-500" : "text-orange-400"}
           >
-            <Sun size={14} fill={!isDark ? "currentColor" : "none"} />
+            <Sun size={compact ? 11 : 14} fill={!isDark ? "currentColor" : "none"} />
           </motion.div>
         </div>
 
         {/* The Track & Knob */}
-        <div className="relative w-9 h-5 rounded-full bg-black/10 dark:bg-black/40 shadow-inner">
+        <div className={`relative rounded-full bg-black/10 dark:bg-black/40 shadow-inner ${compact ? 'w-7 h-4' : 'w-9 h-5'}`}>
           <motion.div
             // REMOVED 'layout' prop here to fix conflict
-            animate={{ x: isDark ? 18 : 2 }}
+            animate={{ x: isDark ? (compact ? 13 : 18) : 2 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
             className={`
-              absolute top-0.5 left-0 h-4 w-4 rounded-full flex items-center justify-center
+              absolute top-0.5 left-0 rounded-full flex items-center justify-center
+              ${compact ? 'h-3 w-3' : 'h-4 w-4'}
               ${isDark
                 ? "bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]"
                 : "bg-white shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
@@ -64,12 +66,12 @@ const ThemeToggle = () => {
             `}
           >
             {/* Tiny Center Dot */}
-            <div className={`w-1 h-1 rounded-full ${isDark ? 'bg-white' : 'bg-blue-400'}`} />
+            <div className={`rounded-full ${compact ? 'w-0.5 h-0.5' : 'w-1 h-1'} ${isDark ? 'bg-white' : 'bg-blue-400'}`} />
           </motion.div>
         </div>
 
         {/* Moon Icon */}
-        <div className="relative z-10 flex items-center justify-center w-5 h-5">
+        <div className={`relative z-10 flex items-center justify-center ${compact ? 'w-4 h-4' : 'w-5 h-5'}`}>
           <motion.div
             animate={{
               scale: !isDark ? 0.6 : 1,
@@ -79,7 +81,7 @@ const ThemeToggle = () => {
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
             className={isDark ? "text-purple-400" : "text-gray-400"}
           >
-            <Moon size={14} fill={isDark ? "currentColor" : "none"} />
+            <Moon size={compact ? 11 : 14} fill={isDark ? "currentColor" : "none"} />
           </motion.div>
         </div>
       </div>

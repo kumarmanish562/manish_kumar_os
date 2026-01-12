@@ -216,7 +216,12 @@ const Home = () => {
                             <img
                                 src={home.profile_image}
                                 alt={home.name}
-                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105"
+                                className={`w-full h-full object-cover transition-all duration-1000 scale-105 ${
+                                    // Mobile: Auto-cycle; Desktop: Hover-based
+                                    window.innerWidth < 768
+                                        ? (Math.floor(Date.now() / 2500) % 2 === 0 ? 'grayscale-0' : 'grayscale')
+                                        : 'grayscale group-hover:grayscale-0'
+                                    }`}
                                 onError={(e) => { e.target.src = 'https://placehold.co/400x600/111827/00f3ff?text=User'; }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-black/90 via-transparent to-transparent group-hover:from-black/90 transition-all duration-700"></div>

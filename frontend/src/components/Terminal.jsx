@@ -143,10 +143,10 @@ const Terminal = () => {
                         <ThemeToggle />
                         <button
                             onClick={() => toggleViewMode('gui')}
-                            className="flex items-center gap-2 px-4 py-1.5 rounded-lg border-2 border-blue-600 dark:border-[#3b82f6] bg-blue-100 dark:bg-[#1d4ed8]/20 hover:bg-blue-200 dark:hover:bg-[#1d4ed8]/30 text-blue-700 dark:text-[#60a5fa] hover:text-blue-900 dark:hover:text-white text-xs font-bold tracking-wider uppercase transition-all shadow-sm dark:shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:shadow-md dark:hover:shadow-[0_0_25px_rgba(59,130,246,0.6)]"
+                            className="flex items-center gap-2 px-3 md:px-4 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap shadow-[0_0_10px_rgba(0,0,0,0.1)] hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] backdrop-blur-md"
                         >
-                            <CloseIcon size={16} strokeWidth={2.5} />
-                            GUI MODE
+                            <CloseIcon className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
+                            <span>GUI MODE</span>
                         </button>
                     </div>
                 </div>

@@ -94,7 +94,7 @@ const About = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full max-w-7xl">
 
                 {/* LEFT COLUMN: Narrative & Info (Span 7) */}
-                <div className="lg:col-span-7 space-y-8 z-10 order-2 lg:order-1">
+                <div className="lg:col-span-7 space-y-8 z-10">
 
                     {/* Header */}
                     <div className="space-y-4">
@@ -182,7 +182,7 @@ const About = () => {
 
                 {/* RIGHT COLUMN: Holographic Card (Span 5) */}
                 <div className="lg:col-span-5 flex items-center justify-center perspective-[2000px] z-20">
-                    <div ref={cardRef} className="relative w-80 lg:w-96 cursor-grab active:cursor-grabbing group" style={{ transformStyle: 'preserve-3d' }}>
+                    <div ref={cardRef} className="relative w-full max-w-md lg:max-w-lg cursor-grab active:cursor-grabbing group" style={{ transformStyle: 'preserve-3d' }}>
 
                         {/* Glowing Background Blob */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 blur-[60px] rounded-full -z-10 pointer-events-none"></div>
@@ -220,7 +220,7 @@ const About = () => {
                             <div className="relative z-10" style={{ transform: 'translateZ(40px)' }}>
                                 {/* Avatar Section */}
                                 <div className="relative flex justify-center mb-6 mt-4">
-                                    <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 shadow-[0_0_20px_rgba(0,243,255,0.3)]">
+                                    <div className="w-40 h-40 lg:w-48 lg:h-48 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 shadow-[0_0_20px_rgba(0,243,255,0.3)]">
                                         <div className="w-full h-full rounded-full overflow-hidden bg-black border-2 border-black">
                                             <img
                                                 src={home.profile_image}
@@ -237,7 +237,7 @@ const About = () => {
 
                                 {/* Identity Info */}
                                 <div className="text-center space-y-2 mb-8">
-                                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Manish Kumar</h2>
+                                    <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">Manish Kumar</h2>
                                     <p className="text-xs font-mono text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] px-2">
                                         {home.headline}
                                     </p>

@@ -226,23 +226,23 @@ const TopBar = () => {
           </div>
 
           {/* Mobile Tools */}
-          <div className="mt-auto grid grid-cols-2 gap-3 pt-3 border-t border-white/10">
+          <div className="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-slate-200 dark:border-white/10">
 
-            {/* Theme Toggle Wrapper */}
-            <div className="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-white/5 border border-white/20 dark:border-white/5 rounded-xl backdrop-blur-xl transition-all">
-              <span className="text-[10px] font-mono text-slate-600 dark:text-gray-400 uppercase tracking-widest">Theme</span>
-              <div className="scale-90 origin-right">
-                <ThemeToggle />
+            {/* Theme Toggle - Sleek Pill style */}
+            <div className="flex items-center justify-between px-2 py-1 rounded-lg border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md shadow-sm h-9">
+              <span className="text-[10px] font-bold text-slate-600 dark:text-gray-400 uppercase tracking-widest ml-1">Theme</span>
+              <div className="flex items-center">
+                <ThemeToggle compact={true} />
               </div>
             </div>
 
-            {/* Terminal Button */}
+            {/* Terminal Button - Sleek Pill style matching GUI MODE button */}
             <button
               onClick={() => toggleViewMode('terminal')}
-              className="group relative flex items-center justify-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/20 rounded-xl backdrop-blur-xl hover:bg-green-500/20 active:scale-95 transition-all"
+              className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg border border-green-500/30 bg-green-500/10 hover:bg-green-500/20 text-green-600 dark:text-green-400 text-[10px] font-bold tracking-widest uppercase transition-all whitespace-nowrap shadow-sm backdrop-blur-md h-9"
             >
-              <Terminal size={14} className="text-green-700 dark:text-green-400" />
-              <span className="text-[10px] font-bold text-green-700 dark:text-green-400 uppercase tracking-widest">Terminal</span>
+              <Terminal size={14} strokeWidth={2.5} />
+              <span>TERMINAL</span>
             </button>
           </div>
         </div>

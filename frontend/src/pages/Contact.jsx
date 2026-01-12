@@ -121,7 +121,7 @@ const Contact = () => {
                         {/* Top Bar */}
                         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-white/5 pb-4">
 
-                            k                            <div className="flex items-center gap-2 text-xs font-mono text-green-600 dark:text-green-400">
+                            <div className="flex items-center gap-2 text-xs font-mono text-green-600 dark:text-green-400">
                                 <ShieldCheck size={12} />
                                 <span className="text-slate-500 dark:text-current">SECURE_TRANSMISSION</span>
                             </div>
@@ -217,14 +217,16 @@ const ContactChannel = ({ icon: Icon, label, value, href, color }) => (
         rel="noopener noreferrer"
         className="contact-channel group flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.08] transition-all cursor-pointer shadow-sm"
     >
-        <div className={`p-3 rounded-lg bg-black/5 dark:bg-black/30 ${color} group-hover:scale-110 transition-transform`}>
+        <div className={`p-3 rounded-lg bg-black/5 dark:bg-black/30 ${color} group-hover:scale-110 transition-transform shrink-0`}>
             <Icon size={24} />
         </div>
-        <div>
+        <div className="flex-1 min-w-0">
             <div className="text-xs text-slate-500 dark:text-gray-500 font-mono uppercase tracking-wider mb-1">{label}</div>
-            <div className="text-slate-900 dark:text-white font-medium group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">{value}</div>
+            <div className="text-slate-900 dark:text-white font-medium group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors break-all md:break-normal">
+                {value}
+            </div>
         </div>
-        <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 dark:text-white/30">
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 dark:text-white/30 shrink-0">
             <Signal size={18} />
         </div>
     </a>
