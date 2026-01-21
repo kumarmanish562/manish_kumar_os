@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { usePortfolio } from '../context/PortfolioContext';
 import { ArrowRight, MousePointer2, Github, Linkedin, Mail, MessageSquare } from 'lucide-react';
 
 const Home = () => {
     const containerRef = useRef(null);
-    const navigate = useNavigate();
     const { portfolioData } = usePortfolio();
     const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
@@ -112,10 +110,10 @@ const Home = () => {
                     </p>
 
                     <div className="flex gap-4 md:gap-5 pt-4 justify-center lg:justify-start">
-                        <button onClick={() => navigate('/projects')} className="px-6 md:px-8 py-3 md:py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-bold rounded-xl hover:scale-105 transition-all shadow-xl flex items-center gap-2 text-sm md:text-base">
+                        <button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} className="px-6 md:px-8 py-3 md:py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-bold rounded-xl hover:scale-105 transition-all shadow-xl flex items-center gap-2 text-sm md:text-base">
                             View Work <ArrowRight size={18} />
                         </button>
-                        <button onClick={() => navigate('/contact')} className="px-6 md:px-8 py-3 md:py-4 bg-slate-100 border border-slate-300 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 transition-all text-sm md:text-base">
+                        <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="px-6 md:px-8 py-3 md:py-4 bg-slate-100 border border-slate-300 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white rounded-xl hover:bg-slate-200 dark:hover:bg-white/10 transition-all text-sm md:text-base">
                             Contact Me
                         </button>
                     </div>

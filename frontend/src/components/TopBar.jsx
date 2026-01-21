@@ -54,12 +54,7 @@ const TopBar = () => {
   useEffect(() => {
     const currentFile = allFiles[location.pathname];
     if (currentFile) {
-      setOpenTabs(prev => {
-        if (!prev.find(tab => tab.name === currentFile.name)) {
-          return [...prev, currentFile];
-        }
-        return prev;
-      });
+      setOpenTabs([currentFile]);
     }
     setIsMobileMenuOpen(false); // Close mobile menu on navigation
   }, [location.pathname]);

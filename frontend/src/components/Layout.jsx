@@ -1,17 +1,38 @@
 import React, { useRef, useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { usePortfolio } from "../context/PortfolioContext";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
 import Background3D from "./Background3D";
 import FullScreenTerminal from "./FullScreenTerminal";
-import { AnimatePresence, motion } from "framer-motion";
-import gsap from "gsap";
+import PortfolioContent from "./PortfolioContent";
+import { gsap } from "gsap";
 
 const Layout = () => {
   const { viewMode } = usePortfolio();
   const contentRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Scroll to section on route change
+  useEffect(() => {
+    if (contentRef.current) {
+      const sectionId = location.pathname === '/' ? 'home' : location.pathname.substring(1);
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Determine offset based on view (optional, but 'start' is usually good)
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [location.pathname]);
+
+  // Sync scroll to URL
+  const handleSectionChange = (sectionId) => {
+    const path = sectionId === 'home' ? '/' : `/${sectionId}`;
+    if (location.pathname !== path) {
+      navigate(path, { replace: true });
+    }
+  };
 
   // Entrance Animation
   useEffect(() => {
@@ -34,11 +55,9 @@ const Layout = () => {
       {/* 2. UI Layer (TopBar & Sidebar) - Clickable */}
       <div className="relative z-50 pointer-events-auto">
         <TopBar />
-        <Sidebar />
+        <Sidebar scrollContainer={contentRef} onSectionChange={handleSectionChange} />
       </div>
 
-      {/* 3. Content Layer - Scrollable */}
-      {/* 'pointer-events-none' on wrapper allows clicks to pass through empty spaces */}
       {/* 3. Content Layer - Scrollable */}
       {/* 'pointer-events-none' on wrapper allows clicks to pass through empty spaces */}
       <div className="absolute inset-0 top-14 left-0 lg:left-20 overflow-hidden pointer-events-none z-10 w-full">
@@ -47,18 +66,7 @@ const Layout = () => {
           className="h-full w-full overflow-y-auto overflow-x-hidden p-4 md:p-8 pb-32 md:pb-8 pointer-events-auto scroll-smooth custom-scrollbar"
         >
           <div className="max-w-7xl mx-auto min-h-[85vh] flex flex-col">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={location.pathname}
-                initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -20, filter: "blur(5px)" }}
-                transition={{ duration: 0.4, ease: "circOut" }}
-                className="flex-1 w-full"
-              >
-                <Outlet />
-              </motion.div>
-            </AnimatePresence>
+            <PortfolioContent />
           </div>
         </main>
       </div>
