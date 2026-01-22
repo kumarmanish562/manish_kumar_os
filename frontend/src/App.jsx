@@ -12,6 +12,8 @@ import Terminal from '/src/components/Terminal';
 const App = () => {
   const { viewMode } = usePortfolio();
 
+
+
   return (
     <BrowserRouter>
       {viewMode === 'terminal' ? (
