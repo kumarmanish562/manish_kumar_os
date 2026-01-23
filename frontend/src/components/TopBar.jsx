@@ -21,25 +21,37 @@ const TopBar = () => {
 
   const formattedTime = time.toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-  // 1. File System Definition
+  // 1. File System Definition & Order
   const allFiles = {
     '/': { name: 'Home.jsx', icon: FileCode, color: 'text-cyan-400' },
     '/about': { name: 'About.tsx', icon: FileType, color: 'text-blue-500' },
-    '/projects': { name: 'Projects.py', icon: Hash, color: 'text-yellow-400' },
     '/skills': { name: 'Skills.json', icon: FileJson, color: 'text-green-400' },
-    '/education': { name: 'Education.md', icon: FileType, color: 'text-orange-400' },
+    '/projects': { name: 'Projects.py', icon: Hash, color: 'text-yellow-400' },
     '/experience': { name: 'Experience.log', icon: Terminal, color: 'text-purple-400' },
+    '/education': { name: 'Education.md', icon: FileType, color: 'text-orange-400' },
     '/certifications': { name: 'Certs.pem', icon: FileCode, color: 'text-pink-400' },
     '/resume': { name: 'Resume.pdf', icon: FileType, color: 'text-red-500' },
     '/contact': { name: 'Contact.sh', icon: Terminal, color: 'text-red-400' }
   };
 
+  const orderedPaths = [
+    '/',
+    '/about',
+    '/skills',
+    '/projects',
+    '/experience',
+    '/education',
+    '/certifications',
+    '/resume',
+    '/contact'
+  ];
+
   // Nav Items for Mobile Menu
   const navItems = [
     { name: 'Home', path: '/', icon: FileCode },
     { name: 'About', path: '/about', icon: FileType },
-    { name: 'Projects', path: '/projects', icon: Hash },
     { name: 'Skills', path: '/skills', icon: FileJson },
+    { name: 'Projects', path: '/projects', icon: Hash },
     { name: 'Experience', path: '/experience', icon: Briefcase },
     { name: 'Education', path: '/education', icon: GraduationCap },
     { name: 'Certifications', path: '/certifications', icon: Award },
@@ -50,12 +62,21 @@ const TopBar = () => {
   // 2. Open Tabs State
   const [openTabs, setOpenTabs] = useState([allFiles['/']]);
 
-  // 3. Sync Tabs with URL & Auto-Scroll
+  // 3. Sync Tabs with URL & Auto-Scroll (Stack Behavior)
   useEffect(() => {
-    const currentFile = allFiles[location.pathname];
-    if (currentFile) {
-      setOpenTabs([currentFile]);
+    // Find index of current path in the ordered list
+    const currentIndex = orderedPaths.indexOf(location.pathname);
+
+    if (currentIndex !== -1) {
+      // Create a slice of paths from 0 up to current index
+      // This enforces: Scroll Down -> Add Tab, Scroll Up -> Remove Tab
+      const newTabsInfo = orderedPaths
+        .slice(0, currentIndex + 1)
+        .map(path => allFiles[path]);
+
+      setOpenTabs(newTabsInfo);
     }
+
     setIsMobileMenuOpen(false); // Close mobile menu on navigation
   }, [location.pathname]);
 

@@ -16,6 +16,9 @@ const Layout = () => {
 
   // Scroll to section on route change
   useEffect(() => {
+    // Prevent auto-scrolling if the URL change was triggered by the user scrolling (fromScroll: true)
+    if (location.state?.fromScroll) return;
+
     if (contentRef.current) {
       const sectionId = location.pathname === '/' ? 'home' : location.pathname.substring(1);
       const element = document.getElementById(sectionId);
@@ -30,7 +33,8 @@ const Layout = () => {
   const handleSectionChange = (sectionId) => {
     const path = sectionId === 'home' ? '/' : `/${sectionId}`;
     if (location.pathname !== path) {
-      navigate(path, { replace: true });
+      // Pass state to indicate this navigation was caused by scrolling
+      navigate(path, { replace: true, state: { fromScroll: true } });
     }
   };
 
