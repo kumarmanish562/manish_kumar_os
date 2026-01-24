@@ -15,7 +15,7 @@ const Home = () => {
         '#f43f5e', // Rose
         '#f59e0b', // Amber
         '#10b981', // Emerald
-        '#3b82f6'  // Blue
+        '#3b82f6'  // Blue
     ];
 
     useEffect(() => {
@@ -244,4 +244,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Home; 
