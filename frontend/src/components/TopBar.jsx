@@ -113,19 +113,14 @@ const TopBar = () => {
       <div className="fixed top-0 left-0 right-0 h-10 z-50 flex items-center justify-between bg-white dark:bg-[#0d1117] border-b border-slate-200 dark:border-white/5 select-none shadow-sm dark:shadow-2xl dark:shadow-black/50 px-2 lg:px-0 transition-colors duration-300">
 
         {/* LEFT SIDE: Hamburger + Identity + Tabs */}
-        <div className="flex items-center h-full overflow-hidden w-full lg:w-auto gap-2 lg:gap-0">
+        <div className="flex items-center h-full overflow-hidden flex-1 lg:w-auto gap-2 lg:gap-0">
 
-          {/* Mobile Hamburger */}
-          <button
+          {/* User Identity - Acts as Mobile Menu Toggle */}
+          <div
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-1 text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-md transition-colors"
+            className="flex items-center gap-2 px-2 lg:px-4 h-full bg-white dark:bg-[#0d1117] border-r border-slate-200 dark:border-white/5 mr-2 shrink-0 transition-colors duration-300 cursor-pointer lg:cursor-default"
           >
-            {isMobileMenuOpen ? <X size={20} /> : <div className="space-y-[3px] w-5"><div className="h-0.5 w-full bg-current rounded-full"></div><div className="h-0.5 w-full bg-current rounded-full"></div><div className="h-0.5 w-full bg-current rounded-full"></div></div>}
-          </button>
-
-          {/* User Identity */}
-          <div className="hidden lg:flex items-center gap-2 px-4 h-full bg-white dark:bg-[#0d1117] border-r border-slate-200 dark:border-white/5 mr-2 shrink-0 transition-colors duration-300">
-            <div className="w-5 h-5 rounded-full overflow-hidden border border-purple-500/50 bg-black">
+            <div className="w-6 h-6 lg:w-5 lg:h-5 rounded-full overflow-hidden border border-cyan-500/50 bg-black">
               <img
                 src="/profile.jpg"
                 alt="Profile"
@@ -134,7 +129,7 @@ const TopBar = () => {
               />
               <UserCircle className="w-full h-full text-gray-400 hidden" />
             </div>
-            <span className="text-[12px] font-bold font-mono text-slate-900 dark:text-gray-200 tracking-wide transition-colors duration-300">Manish Kumar</span>
+            <span className="text-sm lg:text-[12px] font-bold font-mono text-slate-900 dark:text-gray-200 tracking-wide transition-colors duration-300">Manish Kumar</span>
           </div>
 
           {/* Tabs Container */}
@@ -182,6 +177,15 @@ const TopBar = () => {
           </div>
         </div>
 
+        {/* Mobile Terminal Toggle */}
+        <button
+          onClick={() => toggleViewMode('terminal')}
+          className="lg:hidden flex items-center justify-center p-2 mr-2 text-green-600 dark:text-green-500 hover:bg-green-500/10 rounded-md transition-colors"
+          aria-label="Open Terminal"
+        >
+          <span className="text-xl font-bold leading-none mt-[-2px]">&gt;_</span>
+        </button>
+
         {/* RIGHT SIDE: Tools (Desktop) */}
         <div className="hidden lg:flex items-center h-full bg-white dark:bg-[#0d1117] px-4 gap-4 border-l border-slate-200 dark:border-white/5 shrink-0 transition-colors duration-300">
 
@@ -209,7 +213,7 @@ const TopBar = () => {
 
       {/* MOBILE MENU OVERLAY */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-slate-50/20 dark:bg-[#0d1117]/30 backdrop-blur-md md:hidden flex flex-col pt-16 px-6 pb-6 animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-40 bg-slate-50/20 dark:bg-[#0d1117]/30 backdrop-blur-md lg:hidden flex flex-col pt-16 px-6 pb-6 animate-in fade-in duration-200">
 
           {/* Glass Container for Menu Items */}
           <div className="bg-white/70 dark:bg-[#161b22]/70 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl p-6 shadow-2xl mt-4 flex flex-col gap-4">
