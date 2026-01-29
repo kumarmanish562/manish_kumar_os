@@ -118,7 +118,7 @@ const TopBar = () => {
           {/* User Identity - Acts as Mobile Menu Toggle */}
           <div
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex items-center gap-2 px-2 lg:px-4 h-full bg-white dark:bg-[#0d1117] border-r border-slate-200 dark:border-white/5 mr-2 shrink-0 transition-colors duration-300 cursor-pointer lg:cursor-default"
+            className="flex items-center gap-2 px-2 lg:px-4 h-full bg-white dark:bg-[#0d1117] border-r border-slate-200 dark:border-white/5 mr-1 sm:mr-2 shrink-0 transition-colors duration-300 cursor-pointer lg:cursor-default"
           >
             <div className="w-6 h-6 lg:w-5 lg:h-5 rounded-full overflow-hidden border border-cyan-500/50 bg-black">
               <img
@@ -129,7 +129,7 @@ const TopBar = () => {
               />
               <UserCircle className="w-full h-full text-gray-400 hidden" />
             </div>
-            <span className="text-sm lg:text-[12px] font-bold font-mono text-slate-900 dark:text-gray-200 tracking-wide transition-colors duration-300">Manish Kumar</span>
+            <span className="hidden sm:block text-sm lg:text-[12px] font-bold font-mono text-slate-900 dark:text-gray-200 tracking-wide transition-colors duration-300">Manish Kumar</span>
           </div>
 
           {/* Tabs Container */}

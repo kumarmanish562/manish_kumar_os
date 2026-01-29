@@ -51,7 +51,7 @@ const Layout = () => {
   if (viewMode === 'terminal') return <FullScreenTerminal />;
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden text-gray-200">
+    <div className="relative w-screen h-[100dvh] overflow-hidden text-gray-200">
 
       {/* 1. Background Layer (Fixed & Behind) */}
       <Background3D />
@@ -67,7 +67,7 @@ const Layout = () => {
       <div className="absolute inset-0 top-14 left-0 lg:left-20 overflow-hidden pointer-events-none z-10 w-full">
         <main
           ref={contentRef}
-          className="h-full w-full overflow-y-auto overflow-x-hidden p-4 md:p-8 pb-32 md:pb-8 pointer-events-auto scroll-smooth custom-scrollbar"
+          className="h-full w-full overflow-y-auto overflow-x-hidden p-4 md:p-8 pb-20 md:pb-8 pointer-events-auto scroll-smooth custom-scrollbar"
         >
           <div className="max-w-7xl mx-auto min-h-[85vh] flex flex-col">
             <PortfolioContent />
